@@ -14,11 +14,6 @@ class Colono extends Model
         'direccion',
         'correo',
         'telefono',
-        'al_corriente',
-    ];
-
-    protected $casts = [
-        'al_corriente' => 'boolean',
     ];
 
 }

@@ -5,33 +5,55 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
+    <div class="py-8" x-data="{ openModal: {{ $errors->any() ? 'true' : 'false' }} }"
+        @keydown.escape.window="openModal = false">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
                 <div class="p-6 text-gray-900">
-                    <div class="mb-6">
-                        <h1 class="text-2xl font-bold text-gray-800">Listado de colonos</h1>
+                    <div class="mb-6 flex items-center justify-between">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-800">Listado de colonos</h1>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Aquí podrás consultar los colonos registrados en el sistema.
+                            </p>
+                        </div>
+
+                        <button type="button" @click="openModal = true"
+                            class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition">
+                            Nuevo colono
+                        </button>
                     </div>
+
+                    @if(session('success'))
+                        <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
                     @if($colonos->count())
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Nombre completo
                                         </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Dirección
                                         </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Teléfono
                                         </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Correo
                                         </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Status
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Estado
                                         </th>
                                     </tr>
                                 </thead>
@@ -76,6 +98,92 @@
                         </div>
                     @endif
                 </div>
+            </div>
+        </div>
+
+        <!-- Fondo oscuro -->
+        <div x-show="openModal" x-transition.opacity class="fixed inset-0 bg-black/50 z-40" style="display: none;"
+            @click="openModal = false"></div>
+
+        <!-- Modal -->
+        <div x-show="openModal" x-transition class="fixed inset-0 z-50 flex items-center justify-center px-4"
+            style="display: none;">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden" @click.stop>
+                <div class="flex items-center justify-between px-6 py-4 border-b">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">Nuevo colono</h3>
+                        <p class="text-sm text-gray-500">Captura los datos del colono.</p>
+                    </div>
+
+                    <button type="button" @click="openModal = false"
+                        class="text-gray-400 hover:text-gray-600 text-2xl leading-none">
+                        &times;
+                    </button>
+                </div>
+
+                <form action="{{ route('colonos.store') }}" method="POST" class="p-6 space-y-5">
+                    @csrf
+
+                    @if ($errors->any())
+                        <div class="rounded-lg border border-red-200 bg-red-50 p-4">
+                            <p class="text-sm font-semibold text-red-800 mb-2">Hay errores en el formulario:</p>
+                            <ul class="list-disc list-inside text-sm text-red-700 space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div>
+                        <label for="nombre_completo" class="block text-sm font-medium text-gray-700 mb-1">
+                            Nombre completo
+                        </label>
+                        <input type="text" name="nombre_completo" id="nombre_completo"
+                            value="{{ old('nombre_completo') }}"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="direccion" class="block text-sm font-medium text-gray-700 mb-1">
+                            Dirección
+                        </label>
+                        <input type="text" name="direccion" id="direccion" value="{{ old('direccion') }}"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">
+                                Teléfono
+                            </label>
+                            <input type="text" name="telefono" id="telefono" value="{{ old('telefono') }}"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+
+                        <div>
+                            <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">
+                                Correo
+                            </label>
+                            <input type="email" name="correo" id="correo" value="{{ old('correo') }}"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-3 pt-2">
+                        <button type="button" @click="openModal = false"
+                            class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition">
+                            Cancelar
+                        </button>
+
+                        <button type="submit"
+                            class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition">
+                            Guardar colono
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -22,7 +22,7 @@ class ColonoController extends Controller
      */
     public function create()
     {
-        //
+        return view('colonos.create');
     }
 
     /**
@@ -30,7 +30,22 @@ class ColonoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre_completo' => ['required', 'string', 'max:255'],
+            'direccion' => ['required', 'string', 'max:255'],
+            'telefono' => ['required', 'string', 'max:30'],
+            'correo' => ['nullable', 'email', 'max:255'],
+        ], [
+            'nombre_completo.required' => 'El nombre completo es obligatorio.',
+            'direccion.required' => 'La dirección es obligatoria.',
+            'correo.email' => 'El correo debe tener un formato válido.',
+        ]);
+
+        Colono::create($validated);
+
+        return redirect()
+            ->route('colonos.index')
+            ->with('success', 'Colono registrado correctamente.');
     }
 
     /**
