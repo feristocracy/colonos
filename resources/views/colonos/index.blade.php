@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-8" x-data="{ openModal: {{ $errors->any() ? 'true' : 'false' }} }"
-        @keydown.escape.window="openModal = false">
+        @keydown.escape.window="openModal = false; $refs.miForm.reset()">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
                 <div class="p-6 text-gray-900">
@@ -17,6 +17,44 @@
                                 Aquí podrás consultar los colonos registrados en el sistema.
                             </p>
                         </div>
+
+                        <div class="mb-6">
+                            <form action="{{ route('colonos.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3">
+                                <div class="flex-1">
+                                    <input
+                                        type="text"
+                                        name="search"
+                                        value="{{ request('search') }}"
+                                        placeholder="Buscar por nombre, teléfono, correo o dirección..."
+                                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    >
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <button
+                                    type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition"
+                                >
+                                    Buscar
+                                </button>
+
+                                @if(request('search'))
+                                    <a
+                                        href="{{ route('colonos.index') }}"
+                                        class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition"
+                                    >
+                                        Limpiar
+                                    </a>
+                                @endif
+                            </div>
+                        </form>
+                        @if(request('search'))
+                            <div class="mb-4 text-sm text-gray-600">
+                                Mostrando resultados para:
+                                <span class="font-semibold text-gray-800">"{{ request('search') }}"</span>
+                            </div>
+                        @endif
+                    </div>
 
                         <button type="button" @click="openModal = true"
                             class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition">
@@ -35,21 +73,97 @@
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Nombre completo
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <a href="{{ route('colonos.index', [
+                                            'search' => request('search'),
+                                            'sort' => 'nombre_completo',
+                                            'direction' => ($sort === 'nombre_completo' && $direction === 'asc') ? 'desc' : 'asc'
+                                            ]) }}"
+                                            class="flex items-center gap-2 hover:text-gray-800">
+
+                                            <span>Nombre completo</span>
+
+                                            <span class="flex flex-col text-[10px] leading-none">
+
+                                            <span class="{{ $sort === 'nombre_completo' && $direction === 'asc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▲
+                                            </span>
+
+                                            <span class="{{ $sort === 'nombre_completo' && $direction === 'desc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▼
+                                            </span>
+
+                                            </span>
+
+                                            </a>
                                         </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Dirección
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <a href="{{ route('colonos.index', [
+                                            'search' => request('search'),
+                                            'sort' => 'direccion',
+                                            'direction' => ($sort === 'direccion' && $direction === 'asc') ? 'desc' : 'asc'
+                                            ]) }}"
+                                            class="flex items-center gap-2 hover:text-gray-800">
+
+                                            <span>Dirección</span>
+
+                                            <span class="flex flex-col text-[10px] leading-none">
+
+                                            <span class="{{ $sort === 'direccion' && $direction === 'asc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▲
+                                            </span>
+
+                                            <span class="{{ $sort === 'direccion' && $direction === 'desc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▼
+                                            </span>
+
+                                            </span>
+
+                                            </a>
                                         </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Teléfono
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <a href="{{ route('colonos.index', [
+                                                'search' => request('search'),
+                                                'sort' => 'telefono',
+                                                'direction' => ($sort === 'telefono' && $direction === 'asc') ? 'desc' : 'asc'
+                                            ]) }}" class="flex items-center gap-2 hover:text-gray-800">
+
+                                                <span>Teléfono</span>
+
+                                            <span class="flex flex-col text-[10px] leading-none">
+
+                                            <span class="{{ $sort === 'telefono' && $direction === 'asc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▲
+                                            </span>
+
+                                            <span class="{{ $sort === 'telefono' && $direction === 'desc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▼
+                                            </span>
+
+                                            </span>
+                                            </a>
                                         </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Correo
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <a href="{{ route('colonos.index', [
+                                                'search' => request('search'),
+                                                'sort' => 'correo',
+                                                'direction' => ($sort === 'correo' && $direction === 'asc') ? 'desc' : 'asc'
+                                            ]) }}" class="flex items-center gap-2 hover:text-gray-800">
+
+                                                <span>Correo</span>
+
+                                            <span class="flex flex-col text-[10px] leading-none">
+
+                                            <span class="{{ $sort === 'correo' && $direction === 'asc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▲
+                                            </span>
+
+                                            <span class="{{ $sort === 'correo' && $direction === 'desc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▼
+                                            </span>
+
+                                            </span>
+                                            </a>
                                         </th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -115,13 +229,13 @@
                         <p class="text-sm text-gray-500">Captura los datos del colono.</p>
                     </div>
 
-                    <button type="button" @click="openModal = false"
+                    <button type="button" @click="openModal = false; $refs.miForm.reset()"
                         class="text-gray-400 hover:text-gray-600 text-2xl leading-none">
                         &times;
                     </button>
                 </div>
 
-                <form action="{{ route('colonos.store') }}" method="POST" class="p-6 space-y-5">
+                <form x-ref="miForm" action="{{ route('colonos.store') }}" method="POST" class="p-6 space-y-5">
                     @csrf
 
                     @if ($errors->any())
@@ -137,7 +251,7 @@
 
                     <div>
                         <label for="nombre_completo" class="block text-sm font-medium text-gray-700 mb-1">
-                            Nombre completo
+                            Nombre completo<span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="nombre_completo" id="nombre_completo"
                             value="{{ old('nombre_completo') }}"
@@ -147,7 +261,7 @@
 
                     <div>
                         <label for="direccion" class="block text-sm font-medium text-gray-700 mb-1">
-                            Dirección
+                            Dirección<span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="direccion" id="direccion" value="{{ old('direccion') }}"
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -157,7 +271,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">
-                                Teléfono
+                                Teléfono<span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="telefono" id="telefono" value="{{ old('telefono') }}"
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -173,7 +287,7 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-3 pt-2">
-                        <button type="button" @click="openModal = false"
+                        <button type="button" @click="openModal = false; $refs.miForm.reset()"
                             class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition">
                             Cancelar
                         </button>
