@@ -169,11 +169,16 @@
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Estado
                                         </th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Acciones
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach($colonos as $colono)
-                                        <tr class="hover:bg-gray-50 transition">
+                                        <tr class="hover:bg-gray-100 cursor-pointer transition"
+                                        onclick="window.location='{{ route('colonos.show', $colono) }}'">
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                 {{ $colono->nombre_completo }}
                                             </td>
@@ -196,6 +201,39 @@
                                                         Con adeudo
                                                     </span>
                                                 @endif
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+                                                <div class="flex justify-end gap-3">
+
+                                                    <a href="{{ route('colonos.edit', $colono) }}"
+                                                        class="text-blue-600 hover:text-blue-800"
+                                                        title="Editar"
+                                                        onclick="event.stopPropagation()">
+
+                                                        ✏️
+
+                                                    </a>
+
+                                                    <form method="POST"
+                                                        action="{{ route('colonos.destroy', $colono) }}"
+                                                        onsubmit="return confirm('¿Eliminar colono?')"
+                                                        onclick="event.stopPropagation()">
+
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button
+                                                            type="submit"
+                                                            class="text-red-600 hover:text-red-800"
+                                                            title="Eliminar">
+
+                                                            ✖
+
+                                                        </button>
+
+                                                    </form>
+
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -93,7 +93,7 @@ class ColonoController extends Controller
      */
     public function show(Colono $colono)
     {
-        //
+        return view('colonos.show', compact('colono'));
     }
 
     /**
@@ -101,7 +101,7 @@ class ColonoController extends Controller
      */
     public function edit(Colono $colono)
     {
-        //
+        return view('colonos.edit', compact('colono'));
     }
 
     /**
@@ -117,6 +117,10 @@ class ColonoController extends Controller
      */
     public function destroy(Colono $colono)
     {
-        //
+        $colono->delete();
+
+    return redirect()
+        ->route('colonos.index')
+        ->with('success', 'Colono eliminado correctamente.');
     }
 }

@@ -30,6 +30,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/colonos', [ColonoController::class, 'store'])->name('colonos.store');
 });
 
+Route::get('/colonos/{colono}', [ColonoController::class,'show'])
+    ->middleware('auth')
+    ->name('colonos.show');
+
+Route::get('/colonos/{colono}/edit', [ColonoController::class, 'edit'])
+    ->name('colonos.edit');
+
+Route::delete('/colonos/{colono}', [ColonoController::class, 'destroy'])
+    ->name('colonos.destroy');
+
 //Usuarios
 Route::middleware(['auth'])->group(function () {
     Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
