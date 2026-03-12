@@ -14,7 +14,7 @@ class Pago extends Model
         'periodo',
         'fecha_pago',
         'monto',
-        'concepto',
+        'observaciones',
         'recibo_path',
     ];
 

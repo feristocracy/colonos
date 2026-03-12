@@ -25,7 +25,7 @@ class PagoController extends Controller
             ],
             'fecha_pago' => ['required', 'date'],
             'monto' => ['required', 'numeric', 'min:0.01'],
-            'concepto' => ['nullable', 'string', 'max:255'],
+            'observaciones' => ['nullable', 'string', 'max:500'],
             'recibo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ], [
                 'periodo.required' => 'El mes correspondiente es obligatorio.',
@@ -50,7 +50,7 @@ class PagoController extends Controller
             'periodo' => $validated['periodo'],
             'fecha_pago' => $validated['fecha_pago'],
             'monto' => $validated['monto'],
-            'concepto' => $validated['concepto'] ?? null,
+            'observaciones' => $validated['observaciones'] ?? null,
             'recibo_path' => $reciboPath,
         ]);
 

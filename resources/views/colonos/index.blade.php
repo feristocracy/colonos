@@ -168,14 +168,6 @@
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Último pago
                                         </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Status
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Acciones
-                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -200,50 +192,6 @@
                                                 @else
                                                     Sin pagos
                                                 @endif
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                @if($colono->esta_al_corriente)
-                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                                                        Al corriente
-                                                    </span>
-                                                @else
-                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
-                                                        Con adeudo
-                                                    </span>
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                                <div class="flex justify-end gap-3">
-
-                                                    <a href="{{ route('colonos.edit', $colono) }}"
-                                                        class="text-blue-600 hover:text-blue-800"
-                                                        title="Editar"
-                                                        onclick="event.stopPropagation()">
-
-                                                        ✏️
-
-                                                    </a>
-
-                                                    <form method="POST"
-                                                        action="{{ route('colonos.destroy', $colono) }}"
-                                                        onsubmit="return confirm('¿Eliminar colono?')"
-                                                        onclick="event.stopPropagation()">
-
-                                                        @csrf
-                                                        @method('DELETE')
-
-                                                        <button
-                                                            type="submit"
-                                                            class="text-red-600 hover:text-red-800"
-                                                            title="Eliminar">
-
-                                                            ✖
-
-                                                        </button>
-
-                                                    </form>
-
-                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

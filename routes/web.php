@@ -3,6 +3,8 @@
 use App\Http\Controllers\ColonoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PagoController;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin', function () {

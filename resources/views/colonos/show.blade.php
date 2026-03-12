@@ -131,7 +131,7 @@
                                                     Fecha
                                                 </th>
                                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Concepto
+                                                    Observaciones
                                                 </th>
                                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Monto
@@ -151,7 +151,7 @@
                                                         {{ $pago->fecha_pago->format('d/m/Y') }}
                                                     </td>
                                                     <td class="px-6 py-4 text-sm text-gray-700">
-                                                        {{ $pago->concepto ?: 'Sin concepto' }}
+                                                        {{ $pago->observaciones ?: 'Sin observaciones' }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                         ${{ number_format($pago->monto, 2) }}
@@ -285,15 +285,15 @@
                         </div>
 
                         <div>
-                            <label for="concepto" class="block text-sm font-medium text-gray-700 mb-1">
-                                Concepto
+                            <label for="observaciones" class="block text-sm font-medium text-gray-700 mb-1">
+                                Observaciones (opcional)
                             </label>
                             <input
                                 type="text"
-                                name="concepto"
-                                id="concepto"
-                                value="{{ old('concepto') }}"
-                                placeholder="Ej. Cuota marzo 2026"
+                                name="observaciones"
+                                id="observaciones"
+                                value="{{ old('observaciones') }}"
+                                placeholder="Ej. Pagó en efectivo / entregó recibo impreso"
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             >
                         </div>
