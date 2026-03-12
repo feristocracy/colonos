@@ -11,7 +11,6 @@ class Pago extends Model
 
     protected $fillable = [
         'colono_id',
-        'periodo',
         'fecha_pago',
         'monto',
         'observaciones',
@@ -23,8 +22,11 @@ class Pago extends Model
         'monto' => 'decimal:2',
     ];
 
-    public function colono()
-    {
+    public function colono(){
         return $this->belongsTo(Colono::class);
+    }
+
+    public function periodos(){
+        return $this->hasMany(PagoPeriodo::class)->orderBy('periodo');
     }
 }

@@ -125,7 +125,7 @@
                                         <thead class="bg-gray-50">
                                             <tr>
                                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Mes cubierto
+                                                    Mes(es) cubierto(s)
                                                 </th>
                                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Fecha
@@ -144,9 +144,19 @@
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             @foreach($colono->pagos as $pago)
                                                 <tr class="hover:bg-gray-50 transition">
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                                        {{ \Carbon\Carbon::createFromFormat('Y-m', $pago->periodo)->translatedFormat('F Y') }}
-                                                    </td>
+                                                <td class="px-6 py-4 text-sm text-gray-700">
+                                                    @if($pago->periodos->count())
+                                                        <div class="flex flex-col gap-1">
+                                                            @foreach($pago->periodos as $periodo)
+                                                                <span>
+                                                                    {{ \Carbon\Carbon::createFromFormat('Y-m', $periodo->periodo)->translatedFormat('F Y') }}
+                                                                </span>
+                                                            @endforeach
+                                                        </div>
+                                                    @else
+                                                        <span class="text-gray-400">Sin periodos</span>
+                                                    @endif
+                                                </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                                         {{ $pago->fecha_pago->format('d/m/Y') }}
                                                     </td>
@@ -199,7 +209,7 @@
                 style="display: none;"
             >
                 <div
-                    class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden"
+                    class="max-h-[90vh] flex flex-col bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden p-4 overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-gray-400"
                     @click.stop
                 >
                     <div class="flex items-center justify-between px-6 py-4 border-b">
@@ -236,21 +246,39 @@
                             </div>
                         @endif
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="grid grid-cols-1 md:grid-cols-1 gap-5">
                         <div>
-                            <label for="periodo" class="block text-sm font-medium text-gray-700 mb-1">
-                                Mes correspondiente al pago
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Meses cubiertos
                             </label>
-                            <input
-                                type="month"
-                                name="periodo"
-                                id="periodo"
-                                value="{{ old('periodo') }}"
-                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                required
-                            >
-                            <p class="text-xs text-gray-500 mt-1">
-                                Selecciona el mes que está cubriendo este pago.
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-64 overflow-y-auto border border-gray-200 rounded-md p-3">
+                                @foreach($mesesDisponibles as $mes)
+                                    @php
+                                        $yaPagado = $colono->pagoPeriodos->contains('periodo', $mes['value']);
+                                    @endphp
+
+                                    <label class="flex items-center gap-2 text-sm {{ $yaPagado ? 'text-gray-400' : 'text-gray-700' }}">
+                                        <input
+                                            type="checkbox"
+                                            name="periodos[]"
+                                            value="{{ $mes['value'] }}"
+                                            {{ in_array($mes['value'], old('periodos', [])) ? 'checked' : '' }}
+                                            {{ $yaPagado ? 'disabled' : '' }}
+                                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                        >
+                                        <span>
+                                            {{ ucfirst($mes['label']) }}
+                                            @if($yaPagado)
+                                                <span class="text-xs text-red-400">(ya pagado)</span>
+                                            @endif
+                                        </span>
+                                    </label>
+                                @endforeach
+                            </div>
+
+                            <p class="text-xs text-gray-500 mt-2">
+                                Puedes seleccionar uno o varios meses en un solo pago.
                             </p>
                         </div>
                             <div>
@@ -293,7 +321,7 @@
                                 name="observaciones"
                                 id="observaciones"
                                 value="{{ old('observaciones') }}"
-                                placeholder="Ej. Pagó en efectivo / entregó recibo impreso"
+                                placeholder="Ej. Pagó varios meses"
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             >
                         </div>

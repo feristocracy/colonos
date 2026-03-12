@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('pago_periodos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pago_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('colono_id')->constrained()->cascadeOnDelete();
+            $table->string('periodo', 7); // YYYY-MM
+            $table->timestamps();
+
+            $table->unique(['colono_id', 'periodo']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('pago_periodos');
+    }
+};

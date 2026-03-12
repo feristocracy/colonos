@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,32 +17,27 @@ class Colono extends Model
     ];
 
     public function pagos(){
-        return $this->hasMany(Pago::class)->orderByDesc('periodo');
+        return $this->hasMany(Pago::class)->orderByDesc('fecha_pago');
     }
 
-    public function ultimoPago(){
-        return $this->hasOne(Pago::class)->latestOfMany('periodo');
-    }
-
-    public function getUltimoPagoRegistradoAttribute()
-    {
-        return $this->pagos()->orderByDesc('periodo')->first();
+    public function pagoPeriodos(){
+        return $this->hasMany(PagoPeriodo::class)->orderByDesc('periodo');
     }
 
     public function getUltimoPeriodoPagadoAttribute(): ?string
     {
-        return $this->ultimoPago?->periodo;
+        return $this->pagoPeriodos()->orderByDesc('periodo')->value('periodo');
     }
 
     public function getEstaAlCorrienteAttribute(): bool
     {
-        if (!$this->ultimoPago || !$this->ultimoPago->periodo) {
+        $ultimoPeriodo = $this->ultimo_periodo_pagado;
+
+        if (!$ultimoPeriodo) {
             return false;
         }
 
-        $periodoActual = now()->format('Y-m');
-
-        return $this->ultimoPago->periodo >= $periodoActual;
+        return $ultimoPeriodo >= now()->format('Y-m');
     }
 
     public function getStatusPagoAttribute(): string

@@ -33,7 +33,7 @@ class ColonoController extends Controller
             $direction = 'asc';
         }
 
-        $colonos = Colono::with('ultimoPago')
+        $colonos = Colono::query()
             ->when($search, function ($query, $search) {
                 $query->where(function ($subquery) use ($search) {
                     $subquery->where('nombre_completo', 'like', "%{$search}%")
@@ -86,11 +86,29 @@ class ColonoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Colono $colono)
-    {
-        $colono->load(['pagos', 'ultimoPago']);
-
-        return view('colonos.show', compact('colono'));
+    public function show(Colono $colono){
+        $colono->load([
+            'pagos.periodos',
+            'pagoPeriodos',
+        ]);
+    
+        $mesesDisponibles = collect();
+    
+        $inicio = now()->startOfYear()->copy()->subMonths(12);
+        $fin = now()->startOfMonth()->copy()->addMonths(12);
+    
+        $cursor = $inicio->copy();
+    
+        while ($cursor <= $fin) {
+            $mesesDisponibles->push([
+                'value' => $cursor->format('Y-m'),
+                'label' => $cursor->translatedFormat('F Y'),
+            ]);
+    
+            $cursor->addMonth();
+        }
+    
+        return view('colonos.show', compact('colono', 'mesesDisponibles'));
     }
 
     /**
