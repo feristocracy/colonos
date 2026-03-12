@@ -22,7 +22,7 @@ class ColonoController extends Controller
             'nombre_completo',
             'direccion',
             'telefono',
-            'correo'
+            'correo',
         ];
 
         if (!in_array($sort, $allowedSorts)) {
@@ -33,7 +33,7 @@ class ColonoController extends Controller
             $direction = 'asc';
         }
 
-        $colonos = Colono::query()
+        $colonos = Colono::with('ultimoPago')
             ->when($search, function ($query, $search) {
                 $query->where(function ($subquery) use ($search) {
                     $subquery->where('nombre_completo', 'like', "%{$search}%")
@@ -46,12 +46,7 @@ class ColonoController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('colonos.index', compact(
-            'colonos',
-            'search',
-            'sort',
-            'direction'
-        ));
+        return view('colonos.index', compact('colonos', 'search', 'sort', 'direction'));
     }
 
     /**
@@ -93,6 +88,8 @@ class ColonoController extends Controller
      */
     public function show(Colono $colono)
     {
+        $colono->load(['pagos', 'ultimoPago']);
+
         return view('colonos.show', compact('colono'));
     }
 
@@ -119,7 +116,7 @@ class ColonoController extends Controller
     {
         $colono->delete();
 
-    return redirect()
+        return redirect()
         ->route('colonos.index')
         ->with('success', 'Colono eliminado correctamente.');
     }

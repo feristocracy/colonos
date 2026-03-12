@@ -57,9 +57,9 @@ class User extends Authenticatable
         return $this->role === self::ROLE_ADMIN;
     }
 
-    public function isUser(): bool
+    public function isUsuario(): bool
     {
-        return $this->role === self::ROLE_USER;
+        return $this->role === self::ROLE_USUARIO;
     }
 
     public function isTesorero(): bool
@@ -67,9 +67,13 @@ class User extends Authenticatable
         return $this->role === self::ROLE_TESORERO;
     }
 
-    public function hasAnyRole(array $roles): bool
+    public function hasAnyRole(array|string $roles): bool
     {
+        if (is_string($roles)) {
+            $roles = [$roles];
+        }
         return in_array($this->role, $roles);
     }
+   
 
 }

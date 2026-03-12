@@ -165,9 +165,12 @@
                                             </span>
                                             </a>
                                         </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Último pago
+                                        </th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Estado
+                                            Status
                                         </th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -191,8 +194,15 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                                 {{ $colono->correo ?: 'Sin correo' }}
                                             </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                                @if($colono->ultimo_periodo_pagado)
+                                                    {{ \Carbon\Carbon::createFromFormat('Y-m', $colono->ultimo_periodo_pagado)->translatedFormat('M Y') }}
+                                                @else
+                                                    Sin pagos
+                                                @endif
+                                            </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                @if($colono->al_corriente)
+                                                @if($colono->esta_al_corriente)
                                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
                                                         Al corriente
                                                     </span>
