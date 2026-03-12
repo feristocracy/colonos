@@ -15,7 +15,7 @@
     <div
         class="py-8"
         x-data="{ openPagoModal: {{ $errors->any() ? 'true' : 'false' }} }"
-        @keydown.escape.window="openPagoModal = false"
+        @keydown.escape.window="openPagoModal = false; $refs.miForm2.reset()"
     >
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
@@ -232,7 +232,8 @@
                     <form action="{{ route('colonos.pagos.store', $colono) }}"
                           method="POST"
                           enctype="multipart/form-data"
-                          class="p-6 space-y-5">
+                          class="p-6 space-y-5"
+                          x-ref="miForm2">
                         @csrf
 
                         @if ($errors->any())
@@ -345,7 +346,7 @@
                         <div class="flex items-center justify-end gap-3 pt-2">
                             <button
                                 type="button"
-                                @click="openPagoModal = false"
+                                @click="openPagoModal = false; $refs.miForm2.reset()"
                                 class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition"
                             >
                                 Cancelar
