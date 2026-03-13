@@ -168,6 +168,9 @@
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Último pago
                                         </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Status
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -192,6 +195,17 @@
                                                 @else
                                                     Sin pagos
                                                 @endif
+                                            </td>
+                                            <td>
+                                            @if($colono->esta_al_corriente)
+                                                <span class="inline-flex items-center mt-2 px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                                    Al corriente
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center mt-2 px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                                                    Con adeudo
+                                                </span>
+                                            @endif
                                             </td>
                                         </tr>
                                     @endforeach
