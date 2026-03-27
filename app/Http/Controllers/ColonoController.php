@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Colono;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class ColonoController extends Controller
@@ -137,5 +138,19 @@ class ColonoController extends Controller
         return redirect()
         ->route('colonos.index')
         ->with('success', 'Colono eliminado correctamente.');
+    }
+
+        public function estadoCuentaPdf(Colono $colono)
+    {
+        $colono->load([
+            'pagos.periodos',
+        ]);
+
+        $pdf = Pdf::loadView('colonos.estado-cuenta-pdf', [
+            'colono' => $colono,
+            'fechaImpresion' => now(),
+        ])->setPaper('letter', 'portrait');
+
+        return $pdf->stream('estado-cuenta-' . $colono->id . '.pdf');
     }
 }

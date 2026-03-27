@@ -10,61 +10,64 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
                 <div class="p-6 text-gray-900">
-                    <div class="mb-6 flex items-center justify-between">
+                    <div class="px-4 mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div>
                             <h1 class="text-2xl font-bold text-gray-800">Listado de colonos</h1>
-                            <p class="text-sm text-gray-500 mt-1">
-                                Aquí podrás consultar los colonos registrados en el sistema.
-                            </p>
                         </div>
 
-                        <div class="mb-6">
-                            <form action="{{ route('colonos.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3">
-                                <div class="flex-1">
-                                    <input
-                                        type="text"
-                                        name="search"
-                                        value="{{ request('search') }}"
-                                        placeholder="Buscar por nombre, teléfono, correo o dirección..."
-                                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    >
-                            </div>
+                        <div class="flex flex-col gap-3 sm:items-end">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                                <form action="{{ route('colonos.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3">
+                                    <div class="w-full sm:w-80">
+                                        <input
+                                            type="text"
+                                            name="search"
+                                            value="{{ request('search') }}"
+                                            placeholder="Buscar por nombre, teléfono, correo o dirección..."
+                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        >
+                                    </div>
 
-                            <div class="flex items-center gap-2">
+                                    <div class="flex items-center gap-3">
+                                        <button
+                                            type="submit"
+                                            class="inline-flex items-center px-4 py-2 bg-indigo-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition"
+                                        >
+                                            Buscar
+                                        </button>
+
+                                        @if(request('search'))
+                                            <a
+                                                href="{{ route('colonos.index') }}"
+                                                class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition"
+                                            >
+                                                Limpiar
+                                            </a>
+                                        @endif
+                                    </div>
+                                </form>
+
                                 <button
-                                    type="submit"
-                                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition"
+                                    type="button"
+                                    @click="openModal = true"
+                                    class="inline-flex items-center px-4 py-2 bg-violet-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 transition"
                                 >
-                                    Buscar
+                                    Nuevo colono
                                 </button>
-
-                                @if(request('search'))
-                                    <a
-                                        href="{{ route('colonos.index') }}"
-                                        class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition"
-                                    >
-                                        Limpiar
-                                    </a>
-                                @endif
                             </div>
-                        </form>
-                        @if(request('search'))
-                            <div class="mb-4 text-sm text-gray-600">
-                                Mostrando resultados para:
-                                <span class="font-semibold text-gray-800">"{{ request('search') }}"</span>
-                            </div>
-                        @endif
-                    </div>
-
-                        <button type="button" @click="openModal = true"
-                            class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition">
-                            Nuevo colono
-                        </button>
+                        </div>
                     </div>
 
                     @if(session('success'))
                         <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
                             {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if(request('search'))
+                        <div class="px-4 mb-2 text-sm text-gray-600">
+                            Mostrando resultados para:
+                            <span class="font-semibold text-gray-800">"{{ request('search') }}"</span>
                         </div>
                     @endif
 
@@ -169,14 +172,33 @@
                                             Último pago
                                         </th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Status
+                                            <a href="{{ route('colonos.index', [
+                                                'search' => request('search'),
+                                                'sort' => 'status',
+                                                'direction' => ($sort === 'status' && $direction === 'asc') ? 'desc' : 'asc'
+                                            ]) }}" class="flex items-center gap-2 hover:text-gray-800">
+
+                                                <span>Status</span>
+
+                                            <span class="flex flex-col text-[10px] leading-none">
+
+                                            <span class="{{ $sort === 'correo' && $direction === 'asc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▲
+                                            </span>
+
+                                            <span class="{{ $sort === 'correo' && $direction === 'desc' ? 'text-black' : 'text-gray-400' }}">
+                                            ▼
+                                            </span>
+
+                                            </span>
+                                            </a>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach($colonos as $colono)
                                         <tr class="hover:bg-gray-100 cursor-pointer transition"
-                                        onclick="window.location='{{ route('colonos.show', $colono) }}'">
+                                        onclick="window.location = `{{ route('colonos.show', $colono) }}`">
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                 {{ $colono->nombre_completo }}
                                             </td>

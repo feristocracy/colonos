@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/colonos', [ColonoController::class, 'index'])->name('colonos.index');
     Route::post('/colonos', [ColonoController::class, 'store'])->name('colonos.store');
     Route::get('/colonos/{colono}', [ColonoController::class, 'show'])->name('colonos.show');
+    Route::get('/colonos/{colono}/estado-cuenta/pdf', [ColonoController::class, 'estadoCuentaPdf'])
+        ->name('colonos.estado-cuenta.pdf');
     Route::post('/colonos/{colono}/pagos', [PagoController::class, 'store'])
     ->middleware('role:tesorero')
     ->name('colonos.pagos.store');

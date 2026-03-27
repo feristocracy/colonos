@@ -112,11 +112,18 @@
                 <div class="lg:col-span-2">
                     <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
                         <div class="p-6">
-                            <div class="mb-6">
-                                <h3 class="text-lg font-semibold text-gray-900">Historial de pagos</h3>
-                                <p class="text-sm text-gray-500 mt-1">
-                                    Pagos registrados para este colono.
-                                </p>
+                            <div class="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Historial de pagos</h3>
+                                    <p class="text-sm text-gray-500 mt-1">
+                                        Pagos registrados para este colono.
+                                    </p>
+                                </div>
+                                <a href="{{ route('colonos.estado-cuenta.pdf', $colono) }}"
+                                    target="_blank"
+                                    class="shrink-0 inline-flex items-center px-4 py-2 bg-violet-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 transition">
+                                        Imprimir estado de cuenta
+                                </a>
                             </div>
 
                             @if($colono->pagos->count())
