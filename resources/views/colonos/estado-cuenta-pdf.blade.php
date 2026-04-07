@@ -154,6 +154,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Folio</th>
                         <th>Meses cubiertos</th>
                         <th>Fecha de pago</th>
                         <th>Monto</th>
@@ -162,6 +163,7 @@
                 <tbody>
                     @foreach($colono->pagos as $pago)
                         <tr>
+                            <td>{{ $pago->folio }}</td>
                             <td>
                                 @if($pago->periodos->count())
                                     @foreach($pago->periodos as $periodo)

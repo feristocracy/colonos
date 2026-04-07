@@ -11,6 +11,7 @@ class Pago extends Model
 
     protected $fillable = [
         'colono_id',
+        'folio',
         'fecha_pago',
         'monto',
         'observaciones',

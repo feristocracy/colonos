@@ -135,6 +135,9 @@
                                                     Mes(es) cubierto(s)
                                                 </th>
                                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Folio
+                                                </th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Fecha
                                                 </th>
                                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -163,6 +166,9 @@
                                                     @else
                                                         <span class="text-gray-400">Sin periodos</span>
                                                     @endif
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                    {{ $pago->folio }}
                                                 </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                                         {{ $pago->fecha_pago->format('d/m/Y') }}
@@ -289,6 +295,21 @@
                                 Puedes seleccionar uno o varios meses en un solo pago.
                             </p>
                         </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label for="folio" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Folio del recibo
+                                </label>
+                                <input
+                                    type="text"
+                                    name="folio"
+                                    id="folio"
+                                    value="{{ old('folio') }}"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    required
+                                >
+                            </div>
                             <div>
                                 <label for="fecha_pago" class="block text-sm font-medium text-gray-700 mb-1">
                                     Fecha de pago
@@ -302,6 +323,7 @@
                                     required
                                 >
                             </div>
+                        </div>
 
                             <div>
                                 <label for="monto" class="block text-sm font-medium text-gray-700 mb-1">

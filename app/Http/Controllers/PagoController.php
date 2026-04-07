@@ -17,6 +17,7 @@ class PagoController extends Controller
         }
 
         $validated = $request->validate([
+            'folio' => ['required', 'string', 'max:100', 'unique:pagos,folio'],
             'periodos' => ['required', 'array', 'min:1'],
             'periodos.*' => ['required', 'date_format:Y-m'],
             'fecha_pago' => ['required', 'date'],
@@ -24,6 +25,8 @@ class PagoController extends Controller
             'observaciones' => ['nullable', 'string', 'max:500'],
             'recibo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ], [
+                'folio.required' => 'El folio del recibo es obligatorio.',
+                'folio.unique' => 'Ese folio ya existe en otro pago.',
                 'periodos.required' => 'Debe seleccionar al menos un mes.',
                 'periodos.array' => 'Los meses seleccionados no son válidos.',
                 'periodos.min' => 'Debes seleccionar al menos un mes',
@@ -60,6 +63,7 @@ class PagoController extends Controller
 
         DB::transaction(function () use ($colono, $validated, $periodos, $reciboPath) {
             $pago = $colono->pagos()->create([
+                'folio' => $validated['folio'],
                 'fecha_pago' => $validated['fecha_pago'],
                 'monto' => $validated['monto'],
                 'observaciones' => $validated['observaciones'] ?? null,
