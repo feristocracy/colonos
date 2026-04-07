@@ -10,6 +10,39 @@ use Illuminate\Support\Facades\DB;
 
 class PagoController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $query = Pago::with('colono');
+
+        // Buscar por folio
+        if ($request->filled('folio')) {
+            $query->where('folio', 'like', '%' . $request->folio . '%');
+        }
+
+        // Filtrar por mes
+        if ($request->filled('mes')) {
+            $query->whereMonth('fecha_pago', $request->mes);
+        }
+
+        // Filtrar por año
+        if ($request->filled('anio')) {
+            $query->whereYear('fecha_pago', $request->anio);
+        }
+
+        $pagos = $query
+            ->orderByDesc('fecha_pago')
+            ->paginate(15)
+            ->withQueryString();
+
+        $anios = Pago::selectRaw('YEAR(fecha_pago) as anio')
+            ->distinct()
+            ->orderByDesc('anio')
+            ->pluck('anio');
+
+        return view('pagos.index', compact('pagos', 'anios'));
+    }
+
     public function store(Request $request, Colono $colono)
     {
         if (!auth()->user()->isTesorero()) {

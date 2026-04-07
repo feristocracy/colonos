@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 
 //Colonos
 Route::middleware(['auth'])->group(function () {
+    Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
     Route::get('/colonos', [ColonoController::class, 'index'])->name('colonos.index');
     Route::post('/colonos', [ColonoController::class, 'store'])->name('colonos.store');
     Route::get('/colonos/{colono}', [ColonoController::class, 'show'])->name('colonos.show');
