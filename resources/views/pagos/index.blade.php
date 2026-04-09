@@ -98,6 +98,9 @@
                             Fecha de pago
                         </th>
                         <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Monto
+                        </th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                             Recibo
                         </th>
                     </tr>
@@ -109,7 +112,7 @@
                                 {{ $pago->folio }}
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-700">
-                                {{ $pago->colono->nombre_completo ?? 'Sin colono' }}
+                                <a href="{{ route('colonos.show', $pago->colono) }}">{{ $pago->colono->nombre_completo ?? 'Sin colono' }}</a>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-700">
                                 @foreach($pago->periodos as $periodo)
@@ -124,6 +127,9 @@
                             <td class="px-6 py-4 text-sm text-gray-700">
                                 {{ \Carbon\Carbon::parse($pago->fecha_pago)->format('d/m/Y') }} 
                             </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                {{ $pago->monto }} 
+                            </td>
                             <td class="px-6 py-4 text-sm">
                                 @if($pago->recibo_path)
                                     <a
@@ -131,10 +137,10 @@
                                         target="_blank"
                                         class="text-violet-600 hover:text-violet-800 font-medium underline"
                                     >
-                                        Ver Recibo
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>
                                     </a>
                                 @else
-                                    <span class="text-gray-400">Sin imagen</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="m840-234-80-80v-446H314l-80-80h526q33 0 56.5 23.5T840-760v526ZM792-56l-64-64H200q-33 0-56.5-23.5T120-200v-528l-64-64 56-56 736 736-56 56ZM240-280l120-160 90 120 33-44-283-283v447h447l-80-80H240Zm297-257ZM424-424Z"/></svg>
                                 @endif
                             </td>
                         </tr>
