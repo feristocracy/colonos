@@ -115,4 +115,7 @@ class PagoController extends Controller
             ->route('colonos.show', $colono)
             ->with('success', 'Pago registrado correctamente.');
     }
+
+
+
 }
