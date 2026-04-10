@@ -74,6 +74,11 @@ class User extends Authenticatable
         }
         return in_array($this->role, $roles);
     }
+
+    public function movimientosFinancieros()
+    {
+        return $this->hasMany(\App\Models\MovimientoFinanciero::class, 'created_by');
+    }
    
 
 }

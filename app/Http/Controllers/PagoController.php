@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Colono;
 use App\Models\Pago;
+use App\Models\MovimientoFinanciero;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -101,6 +102,18 @@ class PagoController extends Controller
                 'monto' => $validated['monto'],
                 'observaciones' => $validated['observaciones'] ?? null,
                 'recibo_path' => $reciboPath,
+            ]);
+
+            MovimientoFinanciero::create([
+                'tipo' => 'ingreso',
+                'fecha' => $pago->fecha_pago ?? now()->toDateString(),
+                'monto' => $pago->monto,
+                'categoria' => 'Cuotas',
+                'concepto' => 'Pago de cuota - ' . $pago->colono->nombre_completo,
+                'comentarios' => $pago->observaciones,
+                'origen' => 'pago_colono',
+                'pago_id' => $pago->id,
+                'created_by' => auth()->id(),
             ]);
 
             foreach ($periodos as $periodo) {
