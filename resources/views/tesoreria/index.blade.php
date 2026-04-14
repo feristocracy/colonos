@@ -153,34 +153,34 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Fecha</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Tipo</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Concepto</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Categoría</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Origen</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Monto</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Comprobante</th>
+                        <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 text-center">Fecha</th>
+                        <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 text-center">Tipo</th>
+                        <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 text-center">Concepto</th>
+                        <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 text-center">Categoría</th>
+                        <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 text-center">Origen</th>
+                        <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 text-center">Monto</th>
+                        <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 text-center">Comprobante</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 bg-white">
                     @forelse($movimientos as $movimiento)
                         <tr class="hover:bg-slate-50">
-                            <td class="px-4 py-3 text-sm text-slate-700">
+                            <td class="px-4 py-3 text-sm text-slate-700 text-center">
                                 {{ $movimiento->fecha->format('d/m/Y') }}
                             </td>
-                            <td class="px-4 py-3 text-sm">
+                            <td class="px-4 py-3 text-sm text-center align-middle">
                                 <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $movimiento->tipo === 'ingreso' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700' }}">
                                     {{ ucfirst($movimiento->tipo) }}
                                 </span>
                             </td>
-                            <td class="px-4 py-3 text-sm text-slate-700">
+                            <td class="px-4 py-3 text-sm text-slate-700 text-center align-middle">
                                 <div class="font-medium">{{ $movimiento->concepto }}</div>
                                 @if($movimiento->comentarios)
                                     <div class="text-slate-500 text-xs mt-1">{{ $movimiento->comentarios }}</div>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 text-sm text-slate-700">{{ $movimiento->categoria ?? '—' }}</td>
-                            <td class="px-4 py-3 text-sm text-slate-700">
+                            <td class="px-4 py-3 text-sm text-slate-700 text-center align-middle">{{ $movimiento->categoria ?? '—' }}</td>
+                            <td class="px-4 py-3 text-sm text-slate-700 text-center align-middle">
                                 @if($movimiento->origen === 'pago_colono')
                                     <span class="inline-flex rounded-full bg-violet-100 px-2.5 py-1 text-xs font-semibold text-violet-700">
                                         Pago de cuota
@@ -191,23 +191,24 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 text-sm font-semibold {{ $movimiento->tipo === 'ingreso' ? 'text-emerald-600' : 'text-rose-600' }}">
+                            <td class="px-4 py-3 text-sm font-semibold {{ $movimiento->tipo === 'ingreso' ? 'text-emerald-600' : 'text-rose-600' }} text-center align-middle">
                                 ${{ number_format($movimiento->monto, 2) }}
                             </td>
-                            <td class="px-4 py-3 text-sm text-slate-700">
+                            <td class="px-4 py-3 text-sm text-slate-700 text-center align-middle">
                                 @if($movimiento->comprobante_path)
                                     <a href="{{ asset('storage/' . $movimiento->comprobante_path) }}"
                                        target="_blank"
-                                       class="text-violet-600 hover:text-violet-800 font-medium">
+                                       class="inline-flex items-center justify-center text-violet-600 hover:text-violet-800 font-medium">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>
                                     </a>
                                 @elseif($movimiento->origen === 'pago_colono' && $movimiento->pago->recibo_path)
                                 <a href="{{ asset('storage/' . $movimiento->pago->recibo_path) }}"
-                                    target="_blank">
+                                    target="_blank"
+                                    class="inline-flex items-center justify-center text-violet-600 hover:text-violet-800 font-medium">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>
                                 </a>
                                 @else
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="m840-234-80-80v-446H314l-80-80h526q33 0 56.5 23.5T840-760v526ZM792-56l-64-64H200q-33 0-56.5-23.5T120-200v-528l-64-64 56-56 736 736-56 56ZM240-280l120-160 90 120 33-44-283-283v447h447l-80-80H240Zm297-257ZM424-424Z"/>
+                                <svg class="inline-flex items-center justify-center text-violet-600 hover:text-violet-800 font-medium" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="m840-234-80-80v-446H314l-80-80h526q33 0 56.5 23.5T840-760v526ZM792-56l-64-64H200q-33 0-56.5-23.5T120-200v-528l-64-64 56-56 736 736-56 56ZM240-280l120-160 90 120 33-44-283-283v447h447l-80-80H240Zm297-257ZM424-424Z"/>
                                 </svg>
                                 @endif
                             </td>
