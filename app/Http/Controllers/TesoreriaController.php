@@ -60,7 +60,6 @@ class TesoreriaController extends Controller
             'tipo' => ['required', 'in:ingreso,egreso'],
             'fecha' => ['required', 'date'],
             'monto' => ['required', 'numeric', 'min:0.01'],
-            'categoria' => ['nullable', 'string', 'max:255'],
             'concepto' => ['required', 'string', 'max:255'],
             'comentarios' => ['nullable', 'string'],
             'comprobante' => ['nullable', 'image', 'max:4096'],
@@ -76,7 +75,6 @@ class TesoreriaController extends Controller
             'tipo' => $validated['tipo'],
             'fecha' => $validated['fecha'],
             'monto' => $validated['monto'],
-            'categoria' => $validated['categoria'] ?? null,
             'concepto' => $validated['concepto'],
             'comentarios' => $validated['comentarios'] ?? null,
             'comprobante_path' => $path,
@@ -93,28 +91,37 @@ class TesoreriaController extends Controller
     }
 
     public function print(Request $request)
-{
-    $mes = (int) ($request->mes ?? now()->month);
-    $anio = (int) ($request->anio ?? now()->year);
+    {
+        $mes = (int) ($request->mes ?? now()->month);
+        $anio = (int) ($request->anio ?? now()->year);
 
-    $movimientos = MovimientoFinanciero::query()
-        ->whereMonth('fecha', $mes)
-        ->whereYear('fecha', $anio)
-        ->orderBy('fecha')
-        ->orderBy('id')
-        ->get();
+        $movimientos = MovimientoFinanciero::query()
+            ->whereMonth('fecha', $mes)
+            ->whereYear('fecha', $anio)
+            ->orderBy('fecha')
+            ->orderBy('id')
+            ->get();
 
-    $ingresosMes = $movimientos->where('tipo', 'ingreso')->sum('monto');
-    $egresosMes = $movimientos->where('tipo', 'egreso')->sum('monto');
-    $balanceMes = $ingresosMes - $egresosMes;
+        $ingresosMes = $movimientos->where('tipo', 'ingreso')->sum('monto');
+        $egresosMes = $movimientos->where('tipo', 'egreso')->sum('monto');
+        $balanceMes = $ingresosMes - $egresosMes;
 
-    return view('tesoreria.print', compact(
-        'movimientos',
-        'mes',
-        'anio',
-        'ingresosMes',
-        'egresosMes',
-        'balanceMes'
-    ));
-}
+        return view('tesoreria.print', compact(
+            'movimientos',
+            'mes',
+            'anio',
+            'ingresosMes',
+            'egresosMes',
+            'balanceMes'
+        ));
+    }
+
+    public function historico(Request $request)
+    {
+        $movimientos = MovimientoFinanciero::with(['usuarioCreador', 'pago.colono'])
+        ->orderByDesc('created_at')
+        ->paginate(20);
+
+        return view('tesoreria.historico', compact('movimientos'));
+    }
 }

@@ -13,7 +13,6 @@ class MovimientoFinanciero extends Model
         'tipo',
         'fecha',
         'monto',
-        'categoria',
         'concepto',
         'comentarios',
         'comprobante_path',

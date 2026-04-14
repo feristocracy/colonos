@@ -108,7 +108,6 @@ class PagoController extends Controller
                 'tipo' => 'ingreso',
                 'fecha' => $pago->fecha_pago ?? now()->toDateString(),
                 'monto' => $pago->monto,
-                'categoria' => 'Cuotas',
                 'concepto' => 'Pago de cuota - ' . $pago->colono->nombre_completo,
                 'comentarios' => $pago->observaciones,
                 'origen' => 'pago_colono',

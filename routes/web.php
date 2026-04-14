@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/tesoreria', [TesoreriaController::class, 'index'])->name('tesoreria.index');
     Route::get('/tesoreria/print', [TesoreriaController::class, 'print'])->name('tesoreria.print');
+    Route::get('/tesoreria/historico', [TesoreriaController::class, 'historico'])->name('tesoreria.historico');
 });
 
 Route::middleware(['auth', 'tesorero'])->group(function () {

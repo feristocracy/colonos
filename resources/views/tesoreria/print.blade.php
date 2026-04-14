@@ -74,7 +74,6 @@
                 <th>Fecha</th>
                 <th>Tipo</th>
                 <th>Concepto</th>
-                <th>Categoría</th>
                 <th>Comentarios</th>
                 <th>Monto</th>
             </tr>
@@ -85,7 +84,6 @@
                     <td>{{ $movimiento->fecha->format('d/m/Y') }}</td>
                     <td>{{ ucfirst($movimiento->tipo) }}</td>
                     <td>{{ $movimiento->concepto }}</td>
-                    <td>{{ $movimiento->categoria ?? '—' }}</td>
                     <td>{{ $movimiento->comentarios ?? '—' }}</td>
                     <td>
                         ${{ number_format($movimiento->monto, 2) }}
