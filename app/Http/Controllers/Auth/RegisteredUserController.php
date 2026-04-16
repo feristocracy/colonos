@@ -19,6 +19,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+        if (!auth()->user() || auth()->user()->role !== 'admin') {
+        abort(403);
+        }   
         return view('auth.register');
     }
 

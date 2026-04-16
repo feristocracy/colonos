@@ -47,6 +47,12 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        @if(auth()->user()->role === 'admin')
+                            <x-dropdown-link :href="route('register')">
+                                                {{ __('Registrar Usuario') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -56,6 +62,8 @@
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
+
+
                         </form>
                     </x-slot>
                 </x-dropdown>
