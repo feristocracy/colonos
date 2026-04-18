@@ -27,7 +27,7 @@
 
         <div class="flex items-center justify-center mt-6">
 
-            <x-primary-button class="ms-3 bg-violet-600 text-white">
+            <x-primary-button class="ms-3 bg-violet-600 hover:bg-violet-700 text-white">
                 {{ __('Iniciar Sesión') }}
             </x-primary-button>
         </div>

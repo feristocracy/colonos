@@ -109,7 +109,7 @@
                     </div>
                     
                     <div class="space-y-3">
-                        <a href="{{ route('colonos.index') }}" class="flex items-center justify-between p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition-colors backdrop-blur-sm group">
+                        <a href="{{ route('colonos.index') }}?showModal=true" class="flex items-center justify-between p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition-colors backdrop-blur-sm group">
                             <div class="flex items-center gap-3">
                                 <div class="p-2 bg-white/20 rounded-lg group-hover:bg-white/30 transition-colors">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>

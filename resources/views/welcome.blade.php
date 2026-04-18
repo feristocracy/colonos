@@ -37,7 +37,7 @@
                 @else
                     <a
                         href="{{ route('login') }}"
-                        class="inline-flex justify-center px-8 py-3 bg-[#1b1b18] dark:bg-white text-white dark:text-[#1b1b18] hover:bg-gray-800 dark:hover:bg-gray-200 rounded-lg text-lg font-semibold leading-normal shadow-md transition-all hover:-translate-y-1 hover:shadow-lg"
+                        class="inline-flex justify-center px-8 py-3 bg-violet-700 dark:bg-white text-white dark:text-[#1b1b18] hover:bg-violet-800 dark:hover:bg-violet-200 rounded-lg text-lg font-semibold leading-normal shadow-md transition-all hover:-translate-y-1 hover:shadow-lg"
                     >
                         Iniciar Sesión
                     </a>
