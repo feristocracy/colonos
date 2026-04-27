@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Colono;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 
 class ColonoController extends Controller
@@ -24,6 +25,7 @@ class ColonoController extends Controller
             'direccion',
             'telefono',
             'correo',
+            'status',
         ];
 
         if (!in_array($sort, $allowedSorts)) {
@@ -34,20 +36,36 @@ class ColonoController extends Controller
             $direction = 'asc';
         }
 
-        $colonos = Colono::query()
-            ->when($search, function ($query, $search) {
-                $query->where(function ($subquery) use ($search) {
-                    $subquery->where('nombre_completo', 'like', "%{$search}%")
-                        ->orWhere('telefono', 'like', "%{$search}%")
-                        ->orWhere('correo', 'like', "%{$search}%")
-                        ->orWhere('direccion', 'like', "%{$search}%");
-                });
-            })
-            ->orderBy($sort, $direction)
-            ->paginate(10)
-            ->withQueryString();
+    $periodoActual = Carbon::now()->format('Y-m');
 
-        return view('colonos.index', compact('colonos', 'search', 'sort', 'direction'));
+    $query = Colono::query()
+        ->select('colonos.*')
+        ->selectSub(function ($query) use ($periodoActual) {
+            $query->from('pago_periodos')
+                ->selectRaw('COUNT(*)')
+                ->whereColumn('pago_periodos.colono_id', 'colonos.id')
+                ->where('pago_periodos.periodo', $periodoActual);
+        }, 'tiene_pago_actual')
+        ->when($search, function ($query, $search) {
+            $query->where(function ($subquery) use ($search) {
+                $subquery->where('nombre_completo', 'like', "%{$search}%")
+                    ->orWhere('telefono', 'like', "%{$search}%")
+                    ->orWhere('correo', 'like', "%{$search}%")
+                    ->orWhere('direccion', 'like', "%{$search}%");
+            });
+        });
+
+    if ($sort === 'status') {
+        $query->orderBy('tiene_pago_actual', $direction);
+    } else {
+        $query->orderBy($sort, $direction);
+    }
+
+    $colonos = $query
+        ->paginate(10)
+        ->withQueryString();
+
+    return view('colonos.index', compact('colonos', 'search', 'sort', 'direction'));
     }
 
     /**
