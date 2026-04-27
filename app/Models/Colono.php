@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class Colono extends Model
 {
@@ -31,18 +33,25 @@ class Colono extends Model
 
     public function getEstaAlCorrienteAttribute(): bool
     {
-        $ultimoPeriodo = $this->ultimo_periodo_pagado;
+        // Obtenemos el mes actual en formato YYYY-MM (ej: 2026-04)
+        $mesActual = Carbon::now()->format('Y-m');
 
-        if (!$ultimoPeriodo) {
-            return false;
-        }
-
-        return $ultimoPeriodo >= now()->format('Y-m');
+        return $this->pagoPeriodos()
+            ->where('periodo', $mesActual)
+            ->exists();
     }
 
     public function getStatusPagoAttribute(): string
     {
         return $this->esta_al_corriente ? 'Al corriente' : 'Con adeudo';
+    }
+
+    protected static function booted()
+    {
+        static::saving(function ($colono) {
+            // Asignamos 1 o 0 a la columna física basado en la lógica del Accessor
+            $colono->al_corriente = $colono->esta_al_corriente ? 1 : 0;
+        });
     }
 
 }

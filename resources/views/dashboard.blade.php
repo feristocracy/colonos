@@ -23,10 +23,9 @@
                     <div class="relative z-10 flex justify-between items-start">
                         <div>
                             <p class="text-xs font-bold text-violet-500 uppercase tracking-wider mb-1">Colonos Registrados</p>
-                            <h3 class="text-3xl font-extrabold text-violet-900">--</h3>
+                            <h3 class="text-3xl font-extrabold text-violet-900">{{ $totalColonos }}</h3>
                             <p class="text-xs font-medium text-violet-400 mt-2 flex items-center">
-                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                Próximamente
+                                !Lleguemos a más!
                             </p>
                         </div>
                         <div class="p-3 bg-violet-100 rounded-xl text-violet-600">
@@ -41,7 +40,7 @@
                     <div class="relative z-10 flex justify-between items-start">
                         <div>
                             <p class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-1">Ingresos del Mes</p>
-                            <h3 class="text-3xl font-extrabold text-emerald-600">$ --</h3>
+                            <h3 class="text-3xl font-extrabold text-emerald-600">$ {{ number_format($ingresosMes, 2) }}</h3>
                             <p class="text-xs font-medium text-emerald-400 mt-2 flex items-center">
                                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 Próximamente
@@ -59,7 +58,7 @@
                     <div class="relative z-10 flex justify-between items-start">
                         <div>
                             <p class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-1">Egresos del Mes</p>
-                            <h3 class="text-3xl font-extrabold text-rose-600">$ --</h3>
+                            <h3 class="text-3xl font-extrabold text-rose-600">$ {{ number_format($egresosMes, 2) }}</h3>
                             <p class="text-xs font-medium text-rose-400 mt-2 flex items-center">
                                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 Próximamente
@@ -76,8 +75,8 @@
                     <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-50 rounded-full group-hover:scale-110 transition-transform duration-300"></div>
                     <div class="relative z-10 flex justify-between items-start">
                         <div>
-                            <p class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">Con Adeudo</p>
-                            <h3 class="text-3xl font-extrabold text-amber-600">--</h3>
+                            <p class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">Colonos Con Adeudo</p>
+                            <h3 class="text-3xl font-extrabold text-amber-600">{{ $colonosConAdeudo }}</h3>
                             <p class="text-xs font-medium text-amber-400 mt-2 flex items-center">
                                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 Próximamente
