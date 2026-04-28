@@ -43,7 +43,7 @@
                             <h3 class="text-3xl font-extrabold text-emerald-600">$ {{ number_format($ingresosMes, 2) }}</h3>
                             <p class="text-xs font-medium text-emerald-400 mt-2 flex items-center">
                                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                Próximamente
+                                ¡Excelente trabajo!
                             </p>
                         </div>
                         <div class="p-3 bg-emerald-100 rounded-xl text-emerald-600">
@@ -60,8 +60,7 @@
                             <p class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-1">Egresos del Mes</p>
                             <h3 class="text-3xl font-extrabold text-rose-600">$ {{ number_format($egresosMes, 2) }}</h3>
                             <p class="text-xs font-medium text-rose-400 mt-2 flex items-center">
-                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                Próximamente
+                                Inversiones para mejorar
                             </p>
                         </div>
                         <div class="p-3 bg-rose-100 rounded-xl text-rose-600">
@@ -78,8 +77,7 @@
                             <p class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">Colonos Con Adeudo</p>
                             <h3 class="text-3xl font-extrabold text-amber-600">{{ $colonosConAdeudo }}</h3>
                             <p class="text-xs font-medium text-amber-400 mt-2 flex items-center">
-                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                Próximamente
+                                ¡Vamos a contactarlos!
                             </p>
                         </div>
                         <div class="p-3 bg-amber-100 rounded-xl text-amber-600">
