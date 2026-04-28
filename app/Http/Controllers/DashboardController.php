@@ -11,6 +11,31 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
+        //grafico de barras
+        $year = now()->year;
+
+        $movimientos = MovimientoFinanciero::query()
+            ->selectRaw('MONTH(fecha) as mes')
+            ->selectRaw("SUM(CASE WHEN tipo = 'ingreso' THEN monto ELSE 0 END) as ingresos")
+            ->selectRaw("SUM(CASE WHEN tipo = 'egreso' THEN monto ELSE 0 END) as egresos")
+            ->whereYear('fecha', $year)
+            ->groupBy('mes')
+            ->orderBy('mes')
+            ->get();
+
+        $ingresosPorMes = [];
+        $egresosPorMes = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $registro = $movimientos->firstWhere('mes', $i);
+
+            $ingresosPorMes[] = $registro ? (float) $registro->ingresos : 0;
+            $egresosPorMes[] = $registro ? (float) $registro->egresos : 0;
+        }
+
+
+
         $mes = (int) ($request->mes ?? now()->month);
         $anio = (int) ($request->anio ?? now()->year);
         $tipo = $request->tipo ?? 'ingreso';
@@ -43,6 +68,6 @@ class DashboardController extends Controller
 
 
             
-        return view('dashboard', compact('totalColonos', 'ingresosMes', 'egresosMes', 'colonosConAdeudo', 'colonosAlCorriente'));
+        return view('dashboard', compact('totalColonos', 'ingresosMes', 'egresosMes', 'colonosConAdeudo', 'colonosAlCorriente', 'ingresosPorMes', 'egresosPorMes', 'year'));
     }
 }

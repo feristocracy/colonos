@@ -88,57 +88,86 @@
             </div>
 
             <!-- Gráfico y Actividad Reciente -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="w-full">
                 <!-- Gráfico de Ingresos/Egresos (Placeholder) -->
-                <div class="lg:col-span-2 bg-white rounded-3xl p-6 shadow-xl shadow-violet-100/50 border border-violet-100 flex flex-col items-center justify-center min-h-[300px]">
-                    <div class="w-16 h-16 bg-violet-50 rounded-full flex items-center justify-center text-violet-300 mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-violet-900 mb-1">Gráfico de Movimientos</h3>
-                    <p class="text-sm text-violet-500 font-medium">Esta sección mostrará un resumen visual próximamente.</p>
-                </div>
-
-                <!-- Accesos Rápidos -->
-                <div class="bg-gradient-to-br from-violet-600 to-purple-700 rounded-3xl p-6 shadow-xl shadow-violet-200 text-white flex flex-col justify-between">
+            <div class="bg-white rounded-2xl shadow p-6">
+                <div class="flex items-center justify-between mb-4">
                     <div>
-                        <h3 class="text-xl font-extrabold mb-2 tracking-tight">Accesos Rápidos</h3>
-                        <p class="text-violet-200 text-sm mb-6">Navega rápidamente a las secciones principales.</p>
-                    </div>
-                    
-                    <div class="space-y-3">
-                        <a href="{{ route('colonos.index') }}?showModal=true" class="flex items-center justify-between p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition-colors backdrop-blur-sm group">
-                            <div class="flex items-center gap-3">
-                                <div class="p-2 bg-white/20 rounded-lg group-hover:bg-white/30 transition-colors">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                </div>
-                                <span class="font-semibold text-sm">Nuevo Colono</span>
-                            </div>
-                            <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
-                        
-                        <a href="{{ route('pagos.index') }}" class="flex items-center justify-between p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition-colors backdrop-blur-sm group">
-                            <div class="flex items-center gap-3">
-                                <div class="p-2 bg-white/20 rounded-lg group-hover:bg-white/30 transition-colors">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                </div>
-                                <span class="font-semibold text-sm">Registrar Pago</span>
-                            </div>
-                            <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
-
-                        <a href="{{ route('tesoreria.index') }}" class="flex items-center justify-between p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition-colors backdrop-blur-sm group">
-                            <div class="flex items-center gap-3">
-                                <div class="p-2 bg-white/20 rounded-lg group-hover:bg-white/30 transition-colors">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                </div>
-                                <span class="font-semibold text-sm">Ver Tesorería</span>
-                            </div>
-                            <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
+                        <h2 class="text-xl font-bold text-gray-800">
+                            Ingresos y egresos {{ $year }}
+                        </h2>
+                        <p class="text-sm text-gray-500">
+                            Comparativo mensual de movimientos financieros
+                        </p>
                     </div>
                 </div>
+
+                <div class="h-80">
+                    <canvas id="finanzasChart"></canvas>
+                </div>
+            </div>
             </div>
             
         </div>
     </div>
+
+    @push('scripts')
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('finanzasChart');
+
+            new window.Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+                ],
+                datasets: [
+                    {
+                        label: 'Ingresos',
+                        data: @json($ingresosPorMes),
+                        backgroundColor: 'rgba(34, 197, 94, 0.7)',
+                        borderColor: 'rgba(34, 197, 94, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Egresos',
+                        data: @json($egresosPorMes),
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString('es-MX');
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': $' + context.raw.toLocaleString('es-MX');
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+        });
+    </script>
+    @endpush
 </x-app-layout>
