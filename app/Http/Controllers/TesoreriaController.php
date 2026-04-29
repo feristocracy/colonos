@@ -95,6 +95,8 @@ class TesoreriaController extends Controller
         $mes = (int) ($request->mes ?? now()->month);
         $anio = (int) ($request->anio ?? now()->year);
 
+        $fechaInicioMes = \Carbon\Carbon::create($anio, $mes, 1)->startOfMonth();
+
         $movimientos = MovimientoFinanciero::query()
             ->whereMonth('fecha', $mes)
             ->whereYear('fecha', $anio)
@@ -106,13 +108,26 @@ class TesoreriaController extends Controller
         $egresosMes = $movimientos->where('tipo', 'egreso')->sum('monto');
         $balanceMes = $ingresosMes - $egresosMes;
 
+        $saldoCajaMesAnterior =
+            MovimientoFinanciero::where('tipo', 'ingreso')
+                ->whereDate('fecha', '<', $fechaInicioMes)
+                ->sum('monto')
+            -
+            MovimientoFinanciero::where('tipo', 'egreso')
+                ->whereDate('fecha', '<', $fechaInicioMes)
+                ->sum('monto');
+
+        $saldoFinalMes = $saldoCajaMesAnterior + $balanceMes;
+
         return view('tesoreria.print', compact(
             'movimientos',
             'mes',
             'anio',
             'ingresosMes',
             'egresosMes',
-            'balanceMes'
+            'balanceMes',
+            'saldoCajaMesAnterior',
+            'saldoFinalMes'
         ));
     }
 

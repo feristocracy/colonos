@@ -56,6 +56,7 @@
                                 </div>
                             </form>
 
+                            @if(auth()->user()->role === 'tesorero' || auth()->user()->role === 'admin')
                             <button
                                 type="button"
                                 @click="openModal = true"
@@ -66,6 +67,7 @@
                                 </svg>
                                 Nuevo Colono
                             </button>
+                            @endif
                         </div>
                     </div>
 

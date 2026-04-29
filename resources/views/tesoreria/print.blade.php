@@ -80,19 +80,31 @@
         </div>
 
         <!-- Resumen Financiero -->
-        <div class="grid grid-cols-3 gap-4 mb-10">
+        <div class="grid grid-cols-5 gap-6 mb-10">
+            <div class="bg-gray-100 rounded-lg p-4 border border-gray-300 shadow-inner">
+                <p class="text-xs text-gray-600 uppercase tracking-wider font-bold mb-1">Dinero en caja del mes anterior</p>
+                <p class="text-xl font-extrabold {{ $saldoCajaMesAnterior >= 0 ? 'text-blue-700' : 'text-red-700' }}">
+                    ${{ number_format($saldoCajaMesAnterior, 2) }}
+                </p>
+            </div>
             <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
                 <p class="text-xs text-gray-500 uppercase tracking-wider font-bold mb-1">Total Ingresos</p>
-                <p class="text-2xl font-bold text-green-600">${{ number_format($ingresosMes, 2) }}</p>
+                <p class="text-xl font-bold text-green-600">${{ number_format($ingresosMes, 2) }}</p>
             </div>
             <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
                 <p class="text-xs text-gray-500 uppercase tracking-wider font-bold mb-1">Total Egresos</p>
-                <p class="text-2xl font-bold text-red-600">${{ number_format($egresosMes, 2) }}</p>
+                <p class="text-xl font-bold text-red-600">${{ number_format($egresosMes, 2) }}</p>
             </div>
             <div class="bg-gray-100 rounded-lg p-4 border border-gray-300 shadow-inner">
                 <p class="text-xs text-gray-600 uppercase tracking-wider font-bold mb-1">Balance del Mes</p>
-                <p class="text-2xl font-extrabold {{ $balanceMes >= 0 ? 'text-green-700' : 'text-red-700' }}">
+                <p class="text-xl font-extrabold {{ $balanceMes >= 0 ? 'text-green-700' : 'text-red-700' }}">
                     ${{ number_format($balanceMes, 2) }}
+                </p>
+            </div>
+            <div class="bg-gray-100 rounded-lg p-4 border border-gray-300 shadow-inner">
+                <p class="text-xs text-gray-600 uppercase tracking-wider font-bold mb-1">Dinero en caja al cierre del mes</p>
+                <p class="text-xl font-extrabold {{ $saldoFinalMes >= 0 ? 'text-violet-700' : 'text-red-700' }}">
+                    ${{ number_format($saldoFinalMes, 2) }}
                 </p>
             </div>
         </div>
@@ -136,14 +148,24 @@
                     </tr>
                 @endforelse
             </tbody>
-            <tfoot>
                 <tr>
-                    <td colspan="3" class="py-4 px-2 text-right font-bold text-gray-600 uppercase text-xs">Balance Final:</td>
+                    <td colspan="3" class="py-2 px-2 text-right font-bold text-gray-600 uppercase text-xs">Balance Final:</td>
                     <td class="py-4 px-2 text-right font-extrabold text-base border-t-2 border-gray-800 {{ $balanceMes >= 0 ? 'text-green-700' : 'text-red-700' }}">
                         ${{ number_format($balanceMes, 2) }}
                     </td>
                 </tr>
-            </tfoot>
+                <tr>
+                    <td colspan="3" class="py-2 px-2 text-right font-bold text-gray-600 uppercase text-xs">Dinero en caja del mes pasado</td>
+                    <td class="py-4 px-2 text-right font-extrabold text-base border-t-2 border-gray-800 {{ $saldoCajaMesAnterior >= 0 ? 'text-blue-700' : 'text-red-700' }}">
+                        ${{ number_format($saldoCajaMesAnterior, 2) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="py-2 px-2 text-right font-bold text-gray-600 uppercase text-xs">Dinero en caja al cierre de mes</td>
+                    <td class="py-4 px-2 text-right font-extrabold text-base border-t-2 border-gray-800 {{ $saldoFinalMes >= 0 ? 'text-violet-700' : 'text-red-700' }}">
+                        ${{ number_format($saldoFinalMes, 2) }}
+                    </td>
+                </tr>
         </table>
 
         <!-- Pie de página de impresión -->

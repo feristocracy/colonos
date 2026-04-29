@@ -43,7 +43,6 @@ Route::middleware(['auth', 'tesorero'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
     Route::get('/colonos', [ColonoController::class, 'index'])->name('colonos.index');
-    Route::post('/colonos', [ColonoController::class, 'store'])->name('colonos.store');
     Route::get('/colonos/{colono}', [ColonoController::class, 'show'])->name('colonos.show');
     Route::get('/colonos/{colono}/estado-cuenta/pdf', [ColonoController::class, 'estadoCuentaPdf'])
         ->name('colonos.estado-cuenta.pdf');
@@ -56,11 +55,15 @@ Route::get('/colonos/{colono}', [ColonoController::class,'show'])
     ->middleware('auth')
     ->name('colonos.show');
 
-Route::get('/colonos/{colono}/edit', [ColonoController::class, 'edit'])
+Route::post('/colonos', [ColonoController::class, 'store'])
+    ->middleware(['role:admin,tesorero'])
+    ->name('colonos.store');    
+    
+/* Route::get('/colonos/{colono}/edit', [ColonoController::class, 'edit'])
     ->name('colonos.edit');
 
 Route::delete('/colonos/{colono}', [ColonoController::class, 'destroy'])
-    ->name('colonos.destroy');
+    ->name('colonos.destroy'); */
 
 //Usuarios
 Route::middleware(['auth', 'role:admin'])->group(function () {

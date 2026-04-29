@@ -24,7 +24,7 @@
                             name="folio"
                             id="folio"
                             value="{{ request('folio') }}"
-                            placeholder="Ej. REC-2026-0012"
+                            placeholder="Ej. 00123"
                             class="block w-full rounded-xl border-violet-200 bg-white px-4 py-2.5 text-sm shadow-sm placeholder-violet-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
                         >
                     </div>
