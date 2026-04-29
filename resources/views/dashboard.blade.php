@@ -8,6 +8,16 @@
     <div class="py-8 bg-gray-50/50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
+            <!-- Alertas -->
+            @if(session('success'))
+                <div class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4 flex items-center shadow-sm">
+                    <svg class="h-5 w-5 text-emerald-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <p class="text-sm font-medium text-emerald-800">{{ session('success') }}</p>
+                </div>
+            @endif
+
             <!-- Bienvenida -->
             <div class="mb-8">
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-violet-900 tracking-tight mx-3">¡Hola, {{ Auth::user()->name }}!</h1>
