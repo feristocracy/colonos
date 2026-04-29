@@ -209,7 +209,7 @@
                         <div class="mt-6">
                             {{ $colonos->links() }}
                         </div>
-                    @else
+                    @elseif(auth()->user()->role === 'tesorero' || auth()->user()->role === 'admin')
                         <!-- Estado vacío -->
                         <div class="flex flex-col items-center justify-center py-12 px-4 text-center bg-violet-50/50 rounded-2xl border border-dashed border-violet-200">
                             <div class="h-16 w-16 bg-violet-100 text-violet-500 rounded-full flex items-center justify-center mb-4">
