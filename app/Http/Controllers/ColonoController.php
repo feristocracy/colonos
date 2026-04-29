@@ -36,36 +36,36 @@ class ColonoController extends Controller
             $direction = 'asc';
         }
 
-    $periodoActual = Carbon::now()->format('Y-m');
+        $periodoActual = Carbon::now()->format('Y-m');
 
-    $query = Colono::query()
-        ->select('colonos.*')
-        ->selectSub(function ($query) use ($periodoActual) {
-            $query->from('pago_periodos')
-                ->selectRaw('COUNT(*)')
-                ->whereColumn('pago_periodos.colono_id', 'colonos.id')
-                ->where('pago_periodos.periodo', $periodoActual);
-        }, 'tiene_pago_actual')
-        ->when($search, function ($query, $search) {
-            $query->where(function ($subquery) use ($search) {
-                $subquery->where('nombre_completo', 'like', "%{$search}%")
-                    ->orWhere('telefono', 'like', "%{$search}%")
-                    ->orWhere('correo', 'like', "%{$search}%")
-                    ->orWhere('direccion', 'like', "%{$search}%");
+        $query = Colono::query()
+            ->select('colonos.*')
+            ->selectSub(function ($query) use ($periodoActual) {
+                $query->from('pago_periodos')
+                    ->selectRaw('COUNT(*)')
+                    ->whereColumn('pago_periodos.colono_id', 'colonos.id')
+                    ->where('pago_periodos.periodo', $periodoActual);
+            }, 'tiene_pago_actual')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($subquery) use ($search) {
+                    $subquery->where('nombre_completo', 'like', "%{$search}%")
+                        ->orWhere('telefono', 'like', "%{$search}%")
+                        ->orWhere('correo', 'like', "%{$search}%")
+                        ->orWhere('direccion', 'like', "%{$search}%");
+                });
             });
-        });
 
-    if ($sort === 'status') {
-        $query->orderBy('tiene_pago_actual', $direction);
-    } else {
-        $query->orderBy($sort, $direction);
-    }
+        if ($sort === 'status') {
+            $query->orderBy('tiene_pago_actual', $direction);
+        } else {
+            $query->orderBy($sort, $direction);
+        }
 
-    $colonos = $query
-        ->paginate(10)
-        ->withQueryString();
+        $colonos = $query
+            ->paginate(10)
+            ->withQueryString();
 
-    return view('colonos.index', compact('colonos', 'search', 'sort', 'direction'));
+        return view('colonos.index', compact('colonos', 'search', 'sort', 'direction'));
     }
 
     /**
@@ -80,7 +80,7 @@ class ColonoController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
         $validated = $request->validate([
             'nombre_completo' => ['required', 'string', 'max:255'],
             'direccion' => ['required', 'string', 'max:255'],
