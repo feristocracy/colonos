@@ -104,7 +104,7 @@
                                         {{ $pago->folio }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-700">
-                                        <a href="{{ route('colonos.show', $pago->colono) }}" class="font-medium text-violet-600 hover:text-violet-800 transition-colors underline decoration-violet-200 hover:decoration-violet-500">
+                                        <a href="{{ route('colonos.show', $pago->colono_id) }}" class="font-medium text-violet-600 hover:text-violet-800 transition-colors underline decoration-violet-200 hover:decoration-violet-500">
                                             {{ $pago->colono->nombre_completo ?? 'Sin colono' }}
                                         </a>
                                     </td>

@@ -402,7 +402,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div>
                                         <label for="folio" class="block text-sm font-semibold text-violet-900 mb-1.5">
-                                            Folio del recibo <span class="text-rose-500">*</span>
+                                            Folio del recibo
                                         </label>
                                         <input
                                             type="text"
@@ -411,7 +411,6 @@
                                             value="{{ old('folio') }}"
                                             placeholder="Ej. 00123"
                                             class="block w-full rounded-xl border-violet-200 bg-white px-4 py-2.5 text-sm shadow-sm placeholder-violet-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
-                                            required
                                         >
                                     </div>
                                     <div>

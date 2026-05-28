@@ -14,7 +14,7 @@ class PagoController extends Controller
 
     public function index(Request $request)
     {
-        $query = Pago::with('colono');
+        $query = Pago::with(['colono', 'periodos']);
 
         // Buscar por folio
         if ($request->filled('folio')) {
@@ -51,7 +51,7 @@ class PagoController extends Controller
         }
 
         $validated = $request->validate([
-            'folio' => ['required', 'string', 'max:100', 'unique:pagos,folio'],
+            'folio' => ['nullable', 'string', 'max:100', 'unique:pagos,folio'],
             'periodos' => ['nullable', 'array'],
             'periodos.*' => ['required', 'date_format:Y-m'],
             'es_anualidad' => ['nullable', 'boolean'],
@@ -67,7 +67,6 @@ class PagoController extends Controller
             'observaciones' => ['nullable', 'string', 'max:500'],
             'recibo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ], [
-                'folio.required' => 'El folio del recibo es obligatorio.',
                 'folio.unique' => 'Ese folio ya existe en otro pago.',
                 'periodos.array' => 'Los meses seleccionados no son válidos.',
                 'periodos.min' => 'Debes seleccionar al menos un mes',

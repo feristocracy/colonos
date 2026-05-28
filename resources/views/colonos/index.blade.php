@@ -161,7 +161,7 @@
                                                 <td class="px-4 sm:px-6 py-4 text-sm text-gray-600">
                                                     <div class="flex items-center gap-2">
                                                         <svg class="w-4 h-4 text-violet-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                                        <span class="truncate max-w-[200px]" title="{{ $colono->direccion }}">{{ $colono->direccion }}</span>
+                                                        <span class="truncate max-w-[200px]" title="{{ $colono->direccion }}">{{ $colono->direccion?: 'Sin dirección' }}</span>
                                                     </div>
                                                 </td>
                                                 <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-600">
@@ -291,12 +291,11 @@
 
                         <div>
                             <label for="direccion" class="block text-sm font-semibold text-violet-900 mb-1.5">
-                                Dirección <span class="text-rose-500">*</span>
+                                Dirección
                             </label>
                             <input type="text" name="direccion" id="direccion" value="{{ old('direccion') }}"
                                 placeholder="Ej. Calle Primavera 123"
-                                class="block w-full rounded-xl border-violet-200 bg-white px-4 py-2.5 text-sm shadow-sm placeholder-violet-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
-                                required>
+                                class="block w-full rounded-xl border-violet-200 bg-white px-4 py-2.5 text-sm shadow-sm placeholder-violet-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all">
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
