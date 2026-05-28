@@ -315,7 +315,8 @@
                               method="POST"
                               enctype="multipart/form-data"
                               class="space-y-6"
-                              x-ref="miForm2">
+                              x-ref="miForm2"
+                              id="form-pago">
                             @csrf
 
                             @if ($errors->any())
@@ -370,6 +371,33 @@
                                         Puedes seleccionar uno o varios meses en un solo pago.
                                     </p>
                                 </div>
+
+                                <div class="flex flex-row w-full justify-left !mt-2">
+                                    <div class="mt-3">
+                                        <label class="flex items-center gap-2">
+                                            <input type="checkbox" id="anualidad" class="rounded">
+                                            <span>Anualidad</span>
+                                        </label>
+                                    </div>
+
+                                    <div id="campo-anualidad" class="ml-4 hidden flex flex-row items-center w-full">
+                                        <label class="block text-sm font-medium text-gray-700">
+                                            Año de la anualidad
+                                        </label>
+
+                                        <input
+                                            type="number"
+                                            id="anio_anualidad"
+                                            class="mt-1 ml-2 block rounded-md border-gray-300 w-1/2"
+                                            min="2020"
+                                            max="2100"
+                                            placeholder="Ej. 2026"
+                                        >
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="es_anualidad" id="es_anualidad_input" value="0">
+                                <input type="hidden" name="anio_anualidad" id="anio_anualidad_input">
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div>
@@ -495,4 +523,41 @@
             background-color: #c4b5fd; /* violet-300 */
         }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('#form-pago');
+            const anualidad = document.getElementById('anualidad');
+            const campoAnualidad = document.getElementById('campo-anualidad');
+            const anioAnualidad = document.getElementById('anio_anualidad');
+            const esAnualidadInput = document.getElementById('es_anualidad_input');
+            const anioAnualidadInput = document.getElementById('anio_anualidad_input');
+
+            form.addEventListener('submit', function () {
+                esAnualidadInput.value = anualidad.checked ? 1 : 0;
+                anioAnualidadInput.value = anualidad.checked ? anioAnualidad.value : '';
+            });
+
+            anualidad.addEventListener('change', function () {
+                if (this.checked) {
+                    campoAnualidad.classList.remove('hidden');
+                    anioAnualidad.required = true;
+
+                    // Desmarcar meses manuales si quieres evitar confusión
+                    document.querySelectorAll('input[name="periodos[]"]').forEach(input => {
+                        input.checked = false;
+                        input.disabled = true;
+                    });
+                } else {
+                    campoAnualidad.classList.add('hidden');
+                    anioAnualidad.required = false;
+                    anioAnualidad.value = '';
+
+                    document.querySelectorAll('input[name="periodos[]"]').forEach(input => {
+                        input.disabled = false;
+                    });
+                }
+            });
+        });
+    </script>
 </x-app-layout>

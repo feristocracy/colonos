@@ -302,7 +302,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
                                 <label for="telefono" class="block text-sm font-semibold text-violet-900 mb-1.5">
-                                    Teléfono <span class="text-rose-500">*</span>
+                                    Teléfono
                                 </label>
                                 <input type="tel" name="telefono" id="telefono" value="{{ old('telefono') }}"
                                     placeholder="10 dígitos"

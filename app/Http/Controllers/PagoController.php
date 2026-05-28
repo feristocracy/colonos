@@ -52,8 +52,16 @@ class PagoController extends Controller
 
         $validated = $request->validate([
             'folio' => ['required', 'string', 'max:100', 'unique:pagos,folio'],
-            'periodos' => ['required', 'array', 'min:1'],
+            'periodos' => ['nullable', 'array'],
             'periodos.*' => ['required', 'date_format:Y-m'],
+            'es_anualidad' => ['nullable', 'boolean'],
+            'anio_anualidad' => [
+                Rule::requiredIf($request->boolean('es_anualidad')),
+                'nullable',
+                'integer',
+                'min:2020',
+                'max:2100',
+            ],
             'fecha_pago' => ['required', 'date'],
             'monto' => ['required', 'numeric', 'min:0.01'],
             'observaciones' => ['nullable', 'string', 'max:500'],
@@ -61,10 +69,11 @@ class PagoController extends Controller
         ], [
                 'folio.required' => 'El folio del recibo es obligatorio.',
                 'folio.unique' => 'Ese folio ya existe en otro pago.',
-                'periodos.required' => 'Debe seleccionar al menos un mes.',
                 'periodos.array' => 'Los meses seleccionados no son válidos.',
                 'periodos.min' => 'Debes seleccionar al menos un mes',
                 'periodos.*.date_format' => 'Uno de los meses seleccionados no tiene formato',
+                'anio_anualidad.required' => 'Debes escribir el año de la anualidad.',
+                'anio_anualidad.integer' => 'El año de la anualidad no es válido.',
                 'fecha_pago.required' => 'La fecha de pago es obligatoria.',
                 'monto.required' => 'El monto es obligatorio.',
                 'monto.numeric' => 'El monto debe ser numérico.',
@@ -74,7 +83,25 @@ class PagoController extends Controller
                 'recibo.max' => 'La imagen no debe pesar más de 4 MB.',
             ]);
 
-        $periodos = array_unique($validated['periodos']);
+        if ($request->boolean('es_anualidad')) {
+            $anio = $validated['anio_anualidad'];
+
+            $periodos = collect(range(1, 12))
+                ->map(fn ($mes) => $anio . '-' . str_pad($mes, 2, '0', STR_PAD_LEFT))
+                ->toArray();
+        } else {
+            $periodos = $validated['periodos'] ?? [];
+        }
+
+        $periodos = array_unique($periodos);
+
+        if (empty($periodos)) {
+            return back()
+                ->withErrors([
+                    'periodos' => 'Debes seleccionar al menos un mes o capturar una anualidad.',
+                ])
+                ->withInput();
+        }
 
         $periodosDuplicados = $colono->pagoPeriodos()
             ->whereIn('periodo', $periodos)
@@ -82,9 +109,21 @@ class PagoController extends Controller
             ->toArray();
 
         if (!empty($periodosDuplicados)) {
+            if ($request->boolean('es_anualidad')) {
+                $periodos = array_values(array_diff($periodos, $periodosDuplicados));
+            } else {
+                return back()
+                    ->withErrors([
+                        'periodos' => 'Uno o más meses seleccionados ya fueron pagados: ' . implode(', ', $periodosDuplicados),
+                    ])
+                    ->withInput();
+            }
+        }
+
+        if (empty($periodos)) {
             return back()
                 ->withErrors([
-                    'periodos' => 'Uno o más meses seleccionados ya fueron pagados: ' . implode(', ', $periodosDuplicados),
+                    'periodos' => 'Todos los meses de esa anualidad ya están pagados.',
                 ])
                 ->withInput();
         }

@@ -84,12 +84,11 @@ class ColonoController extends Controller
         $validated = $request->validate([
             'nombre_completo' => ['required', 'string', 'max:255'],
             'direccion' => ['required', 'string', 'max:255'],
-            'telefono' => ['required', 'numeric', 'digits:10'],
+            'telefono' => ['nullable', 'numeric', 'digits:10'],
             'correo' => ['nullable', 'email', 'max:255'],
         ], [
             'nombre_completo.required' => 'El nombre completo es obligatorio.',
             'direccion.required' => 'La dirección es obligatoria.',
-            'telefono.required' => 'El teléfono es obligatorio.',
             'telefono.numeric' => 'El teléfono debe ser un número.',
             'telefono.digits' => 'El teléfono debe tener 10 dígitos.',
             'correo.email' => 'El correo debe tener un formato válido.',
