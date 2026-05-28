@@ -151,6 +151,26 @@
                                         </p>
                                     </div>
                                 </div>
+                                    @if(auth()->user()->role === 'admin')
+                                        <div class="flex gap-3 mt-4 justify-center">
+                                            <a href="{{ route('colonos.edit', $colono) }}"
+                                            class="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700">
+                                                Editar
+                                            </a>
+
+                                            <form action="{{ route('colonos.destroy', $colono) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('¿Seguro que deseas eliminar este colono? Sus pagos e historial se conservarán.');">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit"
+                                                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
                             </div>
                         </div>
                     </div>

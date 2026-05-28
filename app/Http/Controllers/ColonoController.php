@@ -134,6 +134,10 @@ class ColonoController extends Controller
      */
     public function edit(Colono $colono)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+
         return view('colonos.edit', compact('colono'));
     }
 
@@ -142,7 +146,22 @@ class ColonoController extends Controller
      */
     public function update(Request $request, Colono $colono)
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'nombre_completo' => 'required|string|max:255',
+            'direccion' => 'nullable|string|max:255',
+            'telefono' => 'nullable|string|max:50',
+            'correo' => 'nullable|email|max:255',
+        ]);
+
+        $colono->update($validated);
+
+        return redirect()
+            ->route('colonos.show', $colono)
+            ->with('success', 'Datos del colono actualizados correctamente.');
     }
 
     /**
@@ -150,6 +169,9 @@ class ColonoController extends Controller
      */
     public function destroy(Colono $colono)
     {
+        if (auth()->user()->role !== 'admin') {
+        abort(403);
+        }
         $colono->delete();
 
         return redirect()

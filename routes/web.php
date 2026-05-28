@@ -49,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/colonos/{colono}/pagos', [PagoController::class, 'store'])
     ->middleware('role:tesorero')
     ->name('colonos.pagos.store');
+    Route::get('/colonos/{colono}/edit', [ColonoController::class, 'edit'])->name('colonos.edit');
+    Route::put('/colonos/{colono}', [ColonoController::class, 'update'])->name('colonos.update');
+    Route::delete('/colonos/{colono}', [ColonoController::class, 'destroy'])->name('colonos.destroy');
 });
 
 Route::get('/colonos/{colono}', [ColonoController::class,'show'])
