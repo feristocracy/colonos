@@ -83,13 +83,12 @@ class ColonoController extends Controller
     {   
         $validated = $request->validate([
             'nombre_completo' => ['required', 'string', 'max:255'],
-            'direccion' => ['required', 'string', 'max:255'],
-            'telefono' => ['required', 'numeric', 'digits:10'],
+            'direccion' => ['nullable', 'string', 'max:255'],
+            'telefono' => ['nullable', 'numeric', 'digits:10'],
             'correo' => ['nullable', 'email', 'max:255'],
         ], [
             'nombre_completo.required' => 'El nombre completo es obligatorio.',
-            'direccion.required' => 'La dirección es obligatoria.',
-            'telefono.required' => 'El teléfono es obligatorio.',
+            'direccion.string' => 'La dirección debe ser una cadena de caracteres.',
             'telefono.numeric' => 'El teléfono debe ser un número.',
             'telefono.digits' => 'El teléfono debe tener 10 dígitos.',
             'correo.email' => 'El correo debe tener un formato válido.',
@@ -135,6 +134,10 @@ class ColonoController extends Controller
      */
     public function edit(Colono $colono)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+
         return view('colonos.edit', compact('colono'));
     }
 
@@ -143,7 +146,22 @@ class ColonoController extends Controller
      */
     public function update(Request $request, Colono $colono)
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'nombre_completo' => 'required|string|max:255',
+            'direccion' => 'nullable|string|max:255',
+            'telefono' => 'nullable|string|max:50',
+            'correo' => 'nullable|email|max:255',
+        ]);
+
+        $colono->update($validated);
+
+        return redirect()
+            ->route('colonos.show', $colono)
+            ->with('success', 'Datos del colono actualizados correctamente.');
     }
 
     /**
@@ -151,6 +169,9 @@ class ColonoController extends Controller
      */
     public function destroy(Colono $colono)
     {
+        if (auth()->user()->role !== 'admin') {
+        abort(403);
+        }
         $colono->delete();
 
         return redirect()
