@@ -134,7 +134,7 @@ class ColonoController extends Controller
      */
     public function edit(Colono $colono)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (auth()->user()->role === 'user') {
             abort(403);
         }
 
@@ -146,7 +146,7 @@ class ColonoController extends Controller
      */
     public function update(Request $request, Colono $colono)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (auth()->user()->role === 'user') {
             abort(403);
         }
 
@@ -169,7 +169,7 @@ class ColonoController extends Controller
      */
     public function destroy(Colono $colono)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (auth()->user()->role === 'user') {
         abort(403);
         }
         $colono->delete();
