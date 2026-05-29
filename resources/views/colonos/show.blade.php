@@ -151,7 +151,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                    @if(auth()->user()->role === 'admin')
+                                    @if(auth()->user()->role !== 'user')
                                         <div class="flex gap-3 mt-4 justify-center">
                                             <a href="{{ route('colonos.edit', $colono) }}"
                                             class="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700">
