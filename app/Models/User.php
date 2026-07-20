@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -78,6 +80,34 @@ class User extends Authenticatable
     public function movimientosFinancieros()
     {
         return $this->hasMany(\App\Models\MovimientoFinanciero::class, 'created_by');
+    }
+
+    public function proyectosCreados(): HasMany
+    {
+        return $this->hasMany(Proyecto::class, 'creado_por');
+    }
+
+    public function proyectosLiderados(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Proyecto::class,
+            'proyecto_lideres',
+            'user_id',
+            'proyecto_id'
+        )->withTimestamps();
+    }
+
+    public function movimientosDeProyectos(): HasMany
+    {
+        return $this->hasMany(
+            ProyectoMovimiento::class,
+            'registrado_por'
+        );
+    }
+
+    public function auditoriasDeProyectos(): HasMany
+    {
+        return $this->hasMany(ProyectoAuditoria::class, 'user_id');
     }
    
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\TesoreriaController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProyectoController;
 
 Route::get('/admin', function () {
     return view('admin.dashboard');
@@ -52,6 +53,27 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/colonos/{colono}/edit', [ColonoController::class, 'edit'])->name('colonos.edit');
     Route::put('/colonos/{colono}', [ColonoController::class, 'update'])->name('colonos.update');
     Route::delete('/colonos/{colono}', [ColonoController::class, 'destroy'])->name('colonos.destroy');
+    //Proyectos
+    Route::resource('proyectos', ProyectoController::class)
+        ->only([
+            'index',
+            'create',
+            'store',
+            'show',
+        ]);
+
+    Route::post(
+        '/proyectos/{proyecto}/lideres',
+        [ProyectoController::class, 'agregarLider']
+    )->name('proyectos.lideres.store');
+
+    Route::post('/proyectos/{proyecto}/movimientos', [ProyectoController::class, 'registrarMovimiento'])
+    ->name('proyectos.movimientos.store');
+
+    Route::delete(
+        '/proyectos/{proyecto}/lideres/{usuario}',
+        [ProyectoController::class, 'eliminarLider']
+    )->name('proyectos.lideres.destroy');
 });
 
 Route::get('/colonos/{colono}', [ColonoController::class,'show'])
