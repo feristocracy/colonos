@@ -85,118 +85,127 @@
                 </div>
             </div>
 
-            {{-- Líderes --}}
-            <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                <div class="flex flex-col justify-between gap-4 sm:flex-row">
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900">
-                            Líderes del proyecto
-                        </h3>
+            <div class="grid gap-6 lg:grid-cols-2">
+                {{-- Líderes --}}
+                <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <div class="flex flex-col justify-between gap-4 sm:flex-row">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">
+                                Líderes del proyecto
+                            </h3>
 
-                        <p class="mt-1 text-sm text-gray-500">
-                            Son los usuarios autorizados para alimentar la información.
-                        </p>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Son los usuarios autorizados para alimentar la información.
+                            </p>
+                        </div>
+
+                        @can('alimentar', $proyecto)
+                            <span class="self-start rounded-full bg-green-100 px-3 py-1
+                                        text-xs font-semibold text-green-700">
+                                Eres líder de este proyecto
+                            </span>
+                        @endcan
                     </div>
 
-                    @can('alimentar', $proyecto)
-                        <span class="self-start rounded-full bg-green-100 px-3 py-1
-                                     text-xs font-semibold text-green-700">
-                            Eres líder de este proyecto
-                        </span>
-                    @endcan
-                </div>
-
-                <div class="mt-5 space-y-3">
-                    @foreach ($proyecto->lideres as $lider)
-                        <div class="flex items-center justify-between rounded-lg
-                                    border border-gray-200 px-4 py-3">
-                            <div>
-                                <p class="font-medium text-gray-900">
-                                    {{ $lider->name }}
-                                </p>
-                                <p class="text-xs text-gray-500">
-                                    {{ $lider->email }}
-                                </p>
-                            </div>
-
-                            @can('gestionarLideres', $proyecto)
-                                <form
-                                    method="POST"
-                                    action="{{ route(
-                                        'proyectos.lideres.destroy',
-                                        [$proyecto, $lider]
-                                    ) }}"
-                                    onsubmit="return confirm(
-                                        '¿Deseas retirar a este líder del proyecto?'
-                                    )"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button
-                                        type="submit"
-                                        class="text-sm font-semibold text-red-600
-                                               hover:text-red-800"
-                                    >
-                                        Retirar
-                                    </button>
-                                </form>
-                            @endcan
-                        </div>
-                    @endforeach
-                </div>
-
-                @can('gestionarLideres', $proyecto)
-                    @if ($usuariosDisponibles->isNotEmpty())
-                        <form
-                            method="POST"
-                            action="{{ route('proyectos.lideres.store', $proyecto) }}"
-                            class="mt-6 flex flex-col gap-3 border-t
-                                   border-gray-200 pt-5 sm:flex-row"
-                        >
-                            @csrf
-
-                            <div class="flex-1">
-                                <label for="user_id" class="sr-only">
-                                    Usuario
-                                </label>
-
-                                <select
-                                    id="user_id"
-                                    name="user_id"
-                                    required
-                                    class="block w-full rounded-md border-gray-300
-                                           shadow-sm focus:border-blue-500
-                                           focus:ring-blue-500"
-                                >
-                                    <option value="">Selecciona un usuario</option>
-
-                                    @foreach ($usuariosDisponibles as $usuario)
-                                        <option value="{{ $usuario->id }}">
-                                            {{ $usuario->name }}
-                                            — {{ $usuario->email }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                                @error('user_id')
-                                    <p class="mt-2 text-sm text-red-600">
-                                        {{ $message }}
+                    <div class="mt-5 space-y-3">
+                        @foreach ($proyecto->lideres as $lider)
+                            <div class="flex items-center justify-between rounded-lg
+                                        border border-gray-200 px-4 py-3">
+                                <div>
+                                    <p class="font-medium text-gray-900">
+                                        {{ $lider->name }}
                                     </p>
-                                @enderror
-                            </div>
+                                    <p class="text-xs text-gray-500">
+                                        {{ $lider->email }}
+                                    </p>
+                                </div>
 
-                            <button
-                                type="submit"
-                                class="rounded-md bg-blue-600 px-4 py-2 text-sm
-                                       font-semibold text-white hover:bg-blue-700"
+                                @can('gestionarLideres', $proyecto)
+                                    <form
+                                        method="POST"
+                                        action="{{ route(
+                                            'proyectos.lideres.destroy',
+                                            [$proyecto, $lider]
+                                        ) }}"
+                                        onsubmit="return confirm(
+                                            '¿Deseas retirar a este líder del proyecto?'
+                                        )"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            class="text-sm font-semibold text-red-600
+                                                hover:text-red-800"
+                                        >
+                                            Retirar
+                                        </button>
+                                    </form>
+                                @endcan
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @can('gestionarLideres', $proyecto)
+                        @if ($usuariosDisponibles->isNotEmpty())
+                            <form
+                                method="POST"
+                                action="{{ route('proyectos.lideres.store', $proyecto) }}"
+                                class="mt-6 flex flex-col gap-3 border-t
+                                    border-gray-200 pt-5 sm:flex-row"
                             >
-                                Agregar líder
-                            </button>
-                        </form>
-                    @endif
-                @endcan
-            </section>
+                                @csrf
+
+                                <div class="flex-1">
+                                    <label for="user_id" class="sr-only">
+                                        Usuario
+                                    </label>
+
+                                    <select
+                                        id="user_id"
+                                        name="user_id"
+                                        required
+                                        class="block w-full rounded-md border-gray-300
+                                            shadow-sm focus:border-blue-500
+                                            focus:ring-blue-500"
+                                    >
+                                        <option value="">Selecciona un usuario</option>
+
+                                        @foreach ($usuariosDisponibles as $usuario)
+                                            <option value="{{ $usuario->id }}">
+                                                {{ $usuario->name }}
+                                                — {{ $usuario->email }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('user_id')
+                                        <p class="mt-2 text-sm text-red-600">
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="rounded-md bg-blue-600 px-4 py-2 text-sm
+                                        font-semibold text-white hover:bg-blue-700"
+                                >
+                                    Agregar líder
+                                </button>
+                            </form>
+                        @endif
+                    @endcan
+                </section>
+
+                {{-- Cotizaciones --}}
+                <section>
+                    <h3 class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm text-lg font-semibold text-gray-900">
+                        Cotizaciones
+                    </h3>
+                </section>
+            </div>
 
             {{-- Movimientos --}}
             <section class="overflow-hidden rounded-xl border border-gray-200
@@ -277,7 +286,7 @@
                                     >
                                         @csrf
 
-                                        <input type="hidden" name="tipo" id="movimientoTipo" value="entrada">
+                                        <input type="hidden" name="tipo" id="movimientoTipo" value="{{ old('tipo', 'entrada') }}">
 
                                         <div>
                                             <label for="concepto" class="block text-sm font-medium text-gray-700">
@@ -302,6 +311,9 @@
                                             <label for="monto" class="block text-sm font-medium text-gray-700">
                                                 Cantidad
                                             </label>
+                                            <p class="mt-1 text-sm text-gray-500">
+                                                Saldo actual disponible: ${{ number_format($proyecto->saldo_actual, 2) }}
+                                            </p>
                                             <input
                                                 type="number"
                                                 name="monto"
@@ -408,6 +420,11 @@
                                     closeMovimientoModal();
                                 }
                             });
+                            @if ($errors->any() && old('tipo'))
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    openMovimientoModal('{{ old('tipo') }}');
+                                });
+                            @endif
                         </script>
                     @endcan
                 </div>
@@ -574,6 +591,7 @@
                     </div>
                 @endif
             </section>
+
         </div>
     </div>
 </x-app-layout>

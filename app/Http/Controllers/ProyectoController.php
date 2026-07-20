@@ -132,14 +132,21 @@ class ProyectoController extends Controller
         $movimientos = $proyecto->movimientos()
             ->with('usuario')
             ->latest()
-            ->paginate(15, ['*'], 'movimientos_page');
+            ->paginate(10, ['*'], 'movimientos_page');
 
         $auditorias = $proyecto->auditorias()
             ->with('usuario')
             ->latest()
-            ->paginate(20, ['*'], 'auditorias_page');
+            ->paginate(10, ['*'], 'auditorias_page');
 
         $usuariosDisponibles = collect();
+
+         if (auth()->user()->role === 'admin') {
+            $usuariosDisponibles = User::query()
+                ->whereNotIn('id', $proyecto->lideres->pluck('id'))
+                ->orderBy('name')
+                ->get();
+        }
 
         if (Gate::allows('gestionarLideres', $proyecto)) {
             $usuariosDisponibles = User::query()
@@ -253,6 +260,14 @@ class ProyectoController extends Controller
             'descripcion' => ['nullable', 'string'],
             'comprobante' => ['nullable', 'image', 'max:4096'],
         ]);
+
+        if ($data['tipo'] === 'salida' && $data['monto'] > $proyecto->saldo_actual) {
+            return back()
+                ->withErrors([
+                    'monto' => 'La salida no puede ser mayor al saldo actual del proyecto.',
+                ])
+                ->withInput();
+        }
 
         $comprobantePath = null;
 
