@@ -158,11 +158,17 @@ class ProyectoController extends Controller
                 ->get();
         }
 
+        $cotizacionConceptos = $proyecto->cotizacionConceptos()
+            ->withCount('cotizaciones')
+            ->latest()
+            ->get();
+
         return view('proyectos.show', compact(
             'proyecto',
             'movimientos',
             'auditorias',
-            'usuariosDisponibles'
+            'usuariosDisponibles',
+            'cotizacionConceptos',            
         ));
     }
 

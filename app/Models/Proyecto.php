@@ -68,4 +68,9 @@ class Proyecto extends Model
 
         return (float) $entradas - (float) $salidas;
     }
+
+    public function cotizacionConceptos()
+    {
+        return $this->hasMany(ProyectoCotizacionConcepto::class);
+    }
 }

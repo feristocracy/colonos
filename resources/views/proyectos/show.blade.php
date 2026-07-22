@@ -200,11 +200,190 @@
                 </section>
 
                 {{-- Cotizaciones --}}
-                <section>
+<!--                 <section>
                     <h3 class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm text-lg font-semibold text-gray-900">
                         Cotizaciones
                     </h3>
+                </section> -->
+                <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">
+                                Cotizaciones
+                            </h3>
+
+                            <p class="mt-1 text-sm text-gray-500">
+                                Conceptos y comparativas de precios para transparentar decisiones del proyecto.
+                            </p>
+                        </div>
+
+                        @can('alimentar', $proyecto)
+                            <button
+                                type="button"
+                                onclick="openCotizacionConceptoModal()"
+                                class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                            >
+                                Agregar cotización
+                            </button>
+                        @endcan
+                    </div>
+
+                    <div class="mt-6 space-y-3">
+                        @forelse ($cotizacionConceptos as $cotizacionConcepto)
+                            <div class="flex flex-col justify-between gap-4 rounded-lg border border-gray-200 px-4 py-4 sm:flex-row sm:items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-900">
+                                        {{ $cotizacionConcepto->nombre }}
+                                    </p>
+
+                                    @if ($cotizacionConcepto->descripcion)
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            {{ $cotizacionConcepto->descripcion }}
+                                        </p>
+                                    @endif
+
+                                    <p class="mt-2 text-xs text-gray-400">
+                                        {{ $cotizacionConcepto->cotizaciones_count }} cotización(es) registrada(s)
+                                    </p>
+                                </div>
+
+                                <a
+                                    href="{{ route('proyectos.cotizaciones.show', [$proyecto, $cotizacionConcepto]) }}"
+                                    class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                                >
+                                    Ver detalles
+                                </a>
+                            </div>
+                        @empty
+                            <div class="rounded-lg border border-dashed border-gray-300 px-4 py-8 text-center">
+                                <p class="text-sm text-gray-500">
+                                    Aún no hay conceptos de cotización registrados.
+                                </p>
+                            </div>
+                        @endforelse
+                    </div>
                 </section>
+                @can('alimentar', $proyecto)
+                    <div
+                        id="cotizacionConceptoModal"
+                        class="fixed inset-0 z-50 hidden overflow-y-auto"
+                        aria-labelledby="cotizacionConceptoModalTitle"
+                        role="dialog"
+                        aria-modal="true"
+                    >
+                        <div class="flex min-h-screen items-center justify-center px-4 py-6">
+                            <div
+                                class="fixed inset-0 bg-gray-900 bg-opacity-50"
+                                onclick="closeCotizacionConceptoModal()"
+                            ></div>
+
+                            <div class="relative w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
+                                <div class="mb-5 flex items-start justify-between">
+                                    <div>
+                                        <h3
+                                            id="cotizacionConceptoModalTitle"
+                                            class="text-lg font-semibold text-gray-900"
+                                        >
+                                            Agregar cotización
+                                        </h3>
+
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            Registra el concepto que se va a cotizar.
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        onclick="closeCotizacionConceptoModal()"
+                                        class="text-2xl leading-none text-gray-400 hover:text-gray-600"
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('proyectos.cotizaciones.store', $proyecto) }}"
+                                    class="space-y-4"
+                                >
+                                    @csrf
+
+                                    <div>
+                                        <label for="cotizacion_nombre" class="block text-sm font-medium text-gray-700">
+                                            Nombre
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="cotizacion_nombre"
+                                            name="nombre"
+                                            value="{{ old('nombre') }}"
+                                            required
+                                            maxlength="255"
+                                            placeholder="Ej. Malla ciclónica"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        >
+
+                                        @error('nombre')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="cotizacion_descripcion" class="block text-sm font-medium text-gray-700">
+                                            Descripción
+                                        </label>
+
+                                        <textarea
+                                            id="cotizacion_descripcion"
+                                            name="descripcion"
+                                            rows="3"
+                                            placeholder="Describe brevemente qué se quiere comprar, instalar o contratar."
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        >{{ old('descripcion') }}</textarea>
+
+                                        @error('descripcion')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="flex justify-end gap-3 pt-4">
+                                        <button
+                                            type="button"
+                                            onclick="closeCotizacionConceptoModal()"
+                                            class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                                        >
+                                            Cancelar
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                                        >
+                                            Guardar y continuar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function openCotizacionConceptoModal() {
+                            document.getElementById('cotizacionConceptoModal').classList.remove('hidden');
+                        }
+
+                        function closeCotizacionConceptoModal() {
+                            document.getElementById('cotizacionConceptoModal').classList.add('hidden');
+                        }
+
+                        @if ($errors->has('nombre') || $errors->has('descripcion'))
+                            document.addEventListener('DOMContentLoaded', function () {
+                                openCotizacionConceptoModal();
+                            });
+                        @endif
+                    </script>
+                @endcan
             </div>
 
             {{-- Movimientos --}}
