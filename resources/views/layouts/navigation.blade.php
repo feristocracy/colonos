@@ -32,6 +32,9 @@
                     <a href="{{ route('tesoreria.index') }}" class="{{ request()->routeIs('tesoreria.index') ? $activeClasses : $inactiveClasses }}">
                         {{ __('Tesorería') }}
                     </a>
+                    <a href="{{ route('proyectos.index') }}" class="{{ request()->routeIs('proyectos.index') ? $activeClasses : $inactiveClasses }}">
+                        {{ __('Proyectos') }}
+                    </a>
                 </div>
             </div>
 
