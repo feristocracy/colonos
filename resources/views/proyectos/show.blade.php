@@ -716,6 +716,207 @@
                 @endif
             </section>
 
+
+            {{-- Notas --}}
+            <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">
+                            Notas
+                        </h3>
+
+                        <p class="mt-1 text-sm text-gray-500">
+                            Avances, evidencias, noticias y datos importantes del proyecto.
+                        </p>
+                    </div>
+
+                    @can('alimentar', $proyecto)
+                        <button
+                            type="button"
+                            onclick="openNotaModal()"
+                            class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                        >
+                            Agregar nota
+                        </button>
+                    @endcan
+                </div>
+
+                <div class="mt-6 space-y-4">
+                    @forelse ($notas as $nota)
+                        <article class="rounded-lg border border-gray-200 p-4">
+                            <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                                <p class="text-sm font-semibold text-gray-900">
+                                    {{ $nota->usuario->name }}
+                                </p>
+
+                                <p class="text-xs text-gray-400">
+                                    {{ $nota->created_at->format('d/m/Y H:i') }}
+                                </p>
+                            </div>
+
+                            <p class="mt-3 whitespace-pre-line text-sm text-gray-700">
+                                {{ $nota->comentario }}
+                            </p>
+
+                            @if ($nota->archivos->isNotEmpty())
+                                <div class="mt-4">
+                                    <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                        Archivos
+                                    </p>
+
+                                    <div class="flex flex-wrap gap-2">
+                                        @foreach ($nota->archivos as $archivo)
+                                            <a
+                                                href="{{ \Illuminate\Support\Facades\Storage::url($archivo->archivo) }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="inline-flex items-center rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            >
+                                                {{ $archivo->nombre_original }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        </article>
+                    @empty
+                        <div class="rounded-lg border border-dashed border-gray-300 px-4 py-8 text-center">
+                            <p class="text-sm text-gray-500">
+                                Aún no hay notas registradas para este proyecto.
+                            </p>
+                        </div>
+                    @endforelse
+                </div>
+
+                @if ($notas->hasPages())
+                    <div class="mt-6">
+                        {{ $notas->links() }}
+                    </div>
+                @endif
+
+                @can('alimentar', $proyecto)
+                    <div
+                        id="notaModal"
+                        class="fixed inset-0 z-50 hidden overflow-y-auto"
+                        role="dialog"
+                        aria-modal="true"
+                    >
+                        <div class="flex min-h-screen items-center justify-center px-4 py-6">
+                            <div
+                                class="fixed inset-0 bg-gray-900 bg-opacity-50"
+                                onclick="closeNotaModal()"
+                            ></div>
+
+                            <div class="relative w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl">
+                                <div class="mb-5 flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900">
+                                            Agregar nota
+                                        </h3>
+
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            Registra un avance, noticia, evidencia o dato importante del proyecto.
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        onclick="closeNotaModal()"
+                                        class="text-2xl leading-none text-gray-400 hover:text-gray-600"
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('proyectos.notas.store', $proyecto) }}"
+                                    enctype="multipart/form-data"
+                                    class="space-y-4"
+                                >
+                                    @csrf
+
+                                    <div>
+                                        <label for="comentario" class="block text-sm font-medium text-gray-700">
+                                            Nota
+                                        </label>
+
+                                        <textarea
+                                            id="comentario"
+                                            name="comentario"
+                                            rows="5"
+                                            required
+                                            placeholder="Ej. Se terminó la limpieza del área norte del parque..."
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        >{{ old('comentario') }}</textarea>
+
+                                        @error('comentario')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="nota_archivos" class="block text-sm font-medium text-gray-700">
+                                            Archivos
+                                        </label>
+
+                                        <input
+                                            type="file"
+                                            id="nota_archivos"
+                                            name="archivos[]"
+                                            multiple
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx,image/*"
+                                            class="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-200"
+                                        >
+
+                                        @error('archivos')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+
+                                        @error('archivos.*')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="flex justify-end gap-3 pt-4">
+                                        <button
+                                            type="button"
+                                            onclick="closeNotaModal()"
+                                            class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                                        >
+                                            Cancelar
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                                        >
+                                            Guardar nota
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function openNotaModal() {
+                            document.getElementById('notaModal').classList.remove('hidden');
+                        }
+
+                        function closeNotaModal() {
+                            document.getElementById('notaModal').classList.add('hidden');
+                        }
+
+                        @if ($errors->has('comentario') || $errors->has('archivos') || $errors->has('archivos.*'))
+                            document.addEventListener('DOMContentLoaded', function () {
+                                openNotaModal();
+                            });
+                        @endif
+                    </script>
+                @endcan
+            </section>
+
             {{-- Auditoría --}}
             <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
                 <h3 class="text-lg font-semibold text-gray-900">

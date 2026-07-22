@@ -163,12 +163,18 @@ class ProyectoController extends Controller
             ->latest()
             ->get();
 
+        $notas = $proyecto->notas()
+            ->with(['usuario', 'archivos'])
+            ->latest()
+            ->paginate(10, ['*'], 'notas_page');
+
         return view('proyectos.show', compact(
             'proyecto',
             'movimientos',
             'auditorias',
             'usuariosDisponibles',
-            'cotizacionConceptos',            
+            'cotizacionConceptos', 
+            'notas',
         ));
     }
 

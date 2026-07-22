@@ -73,4 +73,9 @@ class Proyecto extends Model
     {
         return $this->hasMany(ProyectoCotizacionConcepto::class);
     }
+
+    public function notas()
+    {
+        return $this->hasMany(ProyectoNota::class);
+    }
 }

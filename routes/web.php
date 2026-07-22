@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\ProyectoCotizacionConceptoController;
 use App\Http\Controllers\ProyectoCotizacionController;
+use App\Http\Controllers\ProyectoNotaController;
 
 Route::get('/admin', function () {
     return view('admin.dashboard');
@@ -99,19 +100,22 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 //Proyectos Cotizaciones
-Route::post('proyectos/{proyecto}/cotizaciones', [ProyectoCotizacionConceptoController::class, 'store'])
-    ->name('proyectos.cotizaciones.store');
+    Route::post('proyectos/{proyecto}/cotizaciones', [ProyectoCotizacionConceptoController::class, 'store'])
+        ->name('proyectos.cotizaciones.store');
 
-Route::get('proyectos/{proyecto}/cotizaciones/{cotizacionConcepto}', [ProyectoCotizacionConceptoController::class, 'show'])
-    ->name('proyectos.cotizaciones.show');
+    Route::get('proyectos/{proyecto}/cotizaciones/{cotizacionConcepto}', [ProyectoCotizacionConceptoController::class, 'show'])
+        ->name('proyectos.cotizaciones.show');
 
-Route::post('proyectos/{proyecto}/cotizaciones/{cotizacionConcepto}/detalles', [ProyectoCotizacionController::class, 'store'])
-    ->name('proyectos.cotizaciones.detalles.store');
+    Route::post('proyectos/{proyecto}/cotizaciones/{cotizacionConcepto}/detalles', [ProyectoCotizacionController::class, 'store'])
+        ->name('proyectos.cotizaciones.detalles.store');
 
-Route::post('proyectos/{proyecto}/cotizaciones/{cotizacionConcepto}/detalles/{cotizacion}/archivos', [ProyectoCotizacionController::class, 'storeArchivos'])
-    ->name('proyectos.cotizaciones.detalles.archivos.store');
+    Route::post('proyectos/{proyecto}/cotizaciones/{cotizacionConcepto}/detalles/{cotizacion}/archivos', [ProyectoCotizacionController::class, 'storeArchivos'])
+        ->name('proyectos.cotizaciones.detalles.archivos.store');
 
-Route::post('proyectos/{proyecto}/cotizaciones/{cotizacionConcepto}/detalles/{cotizacion}/comentarios', [ProyectoCotizacionController::class, 'storeComentario'])
-    ->name('proyectos.cotizaciones.detalles.comentarios.store');
+    Route::post('proyectos/{proyecto}/cotizaciones/{cotizacionConcepto}/detalles/{cotizacion}/comentarios', [ProyectoCotizacionController::class, 'storeComentario'])
+        ->name('proyectos.cotizaciones.detalles.comentarios.store');
+
+    Route::post('proyectos/{proyecto}/notas', [ProyectoNotaController::class, 'store'])
+    ->name('proyectos.notas.store');
 
 require __DIR__ . '/auth.php';
