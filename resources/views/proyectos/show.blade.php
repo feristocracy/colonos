@@ -3,61 +3,74 @@
         <div class="flex items-center gap-4">
             <a
                 href="{{ route('proyectos.index') }}"
-                class="text-sm font-medium text-gray-500 hover:text-gray-800"
+                class="group inline-flex items-center justify-center rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
+                title="Regresar a Proyectos"
             >
-                ← Proyectos
+                <svg class="h-5 w-5 transition-transform group-hover:-translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
             </a>
 
-            <h2 class="text-xl font-semibold text-gray-800">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-800">
                 {{ $proyecto->nombre }}
             </h2>
         </div>
     </x-slot>
 
     <div class="py-8">
-        <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
             @if (session('success'))
-                <div class="rounded-lg border border-green-200 bg-green-50
-                            px-4 py-3 text-green-800">
-                    {{ session('success') }}
+                <div class="flex items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-800 shadow-sm">
+                    <svg class="h-5 w-5 text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="font-medium">{{ session('success') }}</span>
                 </div>
             @endif
 
             @if (session('error'))
-                <div class="rounded-lg border border-red-200 bg-red-50
-                            px-4 py-3 text-red-800">
-                    {{ session('error') }}
+                <div class="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800 shadow-sm">
+                    <svg class="h-5 w-5 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="font-medium">{{ session('error') }}</span>
                 </div>
             @endif
 
             <div class="grid gap-6 lg:grid-cols-3">
-                <div class="rounded-xl border border-gray-200 bg-white p-6
-                            shadow-sm lg:col-span-2">
-                    <h3 class="text-lg font-semibold text-gray-900">
+                <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm ring-1 ring-gray-900/5 sm:p-8 lg:col-span-2">
+                    <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                        <svg class="h-5 w-5 text-violet-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                        </svg>
                         Información del proyecto
                     </h3>
 
-                    <p class="mt-4 whitespace-pre-line text-sm leading-6
-                              text-gray-600">{{ $proyecto->descripcion }}</p>
+                    <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-gray-600">
+                        {{ $proyecto->descripcion }}
+                    </p>
 
-                    <dl class="mt-6 grid gap-4 border-t border-gray-200 pt-5
-                               sm:grid-cols-2">
+                    <dl class="mt-8 grid gap-6 border-t border-gray-100 pt-6 sm:grid-cols-2">
                         <div>
-                            <dt class="text-xs font-semibold uppercase
-                                       tracking-wide text-gray-500">
+                            <dt class="text-xs font-semibold uppercase tracking-wider text-gray-500">
                                 Creado por
                             </dt>
-                            <dd class="mt-1 text-sm text-gray-900">
+                            <dd class="mt-2 flex items-center gap-2 text-sm font-medium text-gray-900">
+                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-violet-100 text-violet-700">
+                                    {{ substr($proyecto->creador->name, 0, 1) }}
+                                </div>
                                 {{ $proyecto->creador->name }}
                             </dd>
                         </div>
 
                         <div>
-                            <dt class="text-xs font-semibold uppercase
-                                       tracking-wide text-gray-500">
+                            <dt class="text-xs font-semibold uppercase tracking-wider text-gray-500">
                                 Fecha de creación
                             </dt>
-                            <dd class="mt-1 text-sm text-gray-900">
+                            <dd class="mt-2 flex items-center gap-2 text-sm font-medium text-gray-900">
+                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                </svg>
                                 {{ $proyecto->created_at->format('d/m/Y H:i') }}
                             </dd>
                         </div>
@@ -65,32 +78,47 @@
                 </div>
 
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                    <div class="rounded-xl border border-blue-200 bg-blue-50 p-6">
-                        <p class="text-sm font-medium text-blue-700">
-                            Monto inicial
-                        </p>
-                        <p class="mt-2 text-3xl font-bold text-blue-900">
-                            ${{ number_format($proyecto->monto_inicial, 2) }}
-                        </p>
+                    <div class="relative overflow-hidden rounded-2xl border border-violet-100 bg-violet-50 p-6 sm:p-8">
+                        <div class="absolute -right-6 -top-6 text-violet-500/10">
+                            <svg class="h-32 w-32" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                            </svg>
+                        </div>
+                        <div class="relative">
+                            <p class="text-sm font-semibold tracking-wide text-violet-700 uppercase">
+                                Monto inicial
+                            </p>
+                            <p class="mt-2 text-3xl font-bold tracking-tight text-violet-900">
+                                ${{ number_format($proyecto->monto_inicial, 2) }}
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="rounded-xl border border-green-200 bg-green-50 p-6">
-                        <p class="text-sm font-medium text-green-700">
-                            Saldo actual
-                        </p>
-                        <p class="mt-2 text-3xl font-bold text-green-900">
-                            ${{ number_format($proyecto->saldo_actual, 2) }}
-                        </p>
+                    <div class="relative overflow-hidden rounded-2xl border border-emerald-100 bg-emerald-50 p-6 sm:p-8">
+                        <div class="absolute -right-6 -top-6 text-emerald-500/10">
+                            <svg class="h-32 w-32" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                            </svg>
+                        </div>
+                        <div class="relative">
+                            <p class="text-sm font-semibold tracking-wide text-emerald-700 uppercase">
+                                Saldo actual
+                            </p>
+                            <p class="mt-2 text-3xl font-bold tracking-tight text-emerald-900">
+                                ${{ number_format($proyecto->saldo_actual, 2) }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 {{-- Líderes --}}
-                <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                <section class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm ring-1 ring-gray-900/5 sm:p-8">
                     <div class="flex flex-col justify-between gap-4 sm:flex-row">
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900">
+                            <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#7c3aed"><path d="M80-40v-80h800v80H80Zm80-120v-240q-33-54-51-114.5T91-638q0-61 15.5-120T143-874q8-21 26-33.5t40-12.5q31 0 53 21t18 50l-11 91q-6 48 8.5 91t43.5 75.5q29 32.5 70 52t89 19.5q60 0 120.5 12.5T706-472q45 23 69.5 58.5T800-326v166H160Zm80-80h480v-86q0-24-12-42.5T674-398q-41-20-95-31t-99-11q-66 0-122.5-27t-96-72.5Q222-585 202-644.5T190-768q-10 30-14.5 64t-4.5 66q0 58 20.5 111.5T240-422v182Zm127-367q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47Zm169.5-56.5Q560-687 560-720t-23.5-56.5Q513-800 480-800t-56.5 23.5Q400-753 400-720t23.5 56.5Q447-640 480-640t56.5-23.5ZM320-160v-37q0-67 46.5-115T480-360h160v80H480q-34 0-57 24.5T400-197v37h-80Zm160-80Zm0-480Z"/></svg>
                                 Líderes del proyecto
                             </h3>
 
@@ -100,24 +128,27 @@
                         </div>
 
                         @can('alimentar', $proyecto)
-                            <span class="self-start rounded-full bg-green-100 px-3 py-1
-                                        text-xs font-semibold text-green-700">
+                            <span class="self-start inline-flex items-center rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-800 ring-1 ring-inset ring-violet-600/20">
                                 Eres líder de este proyecto
                             </span>
                         @endcan
                     </div>
 
-                    <div class="mt-5 space-y-3">
+                    <div class="mt-6 space-y-3">
                         @foreach ($proyecto->lideres as $lider)
-                            <div class="flex items-center justify-between rounded-lg
-                                        border border-gray-200 px-4 py-3">
-                                <div>
-                                    <p class="font-medium text-gray-900">
-                                        {{ $lider->name }}
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        {{ $lider->email }}
-                                    </p>
+                            <div class="flex items-center justify-between rounded-xl border border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-600">
+                                        {{ substr($lider->name, 0, 1) }}
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">
+                                            {{ $lider->name }}
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ $lider->email }}
+                                        </p>
+                                    </div>
                                 </div>
 
                                 @can('gestionarLideres', $proyecto)
@@ -136,10 +167,12 @@
 
                                         <button
                                             type="submit"
-                                            class="text-sm font-semibold text-red-600
-                                                hover:text-red-800"
+                                            class="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                            title="Retirar líder"
                                         >
-                                            Retirar
+                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+                                            </svg>
                                         </button>
                                     </form>
                                 @endcan
@@ -152,8 +185,7 @@
                             <form
                                 method="POST"
                                 action="{{ route('proyectos.lideres.store', $proyecto) }}"
-                                class="mt-6 flex flex-col gap-3 border-t
-                                    border-gray-200 pt-5 sm:flex-row"
+                                class="mt-6 flex flex-col gap-3 border-t border-gray-100 pt-6 sm:flex-row"
                             >
                                 @csrf
 
@@ -166,16 +198,13 @@
                                         id="user_id"
                                         name="user_id"
                                         required
-                                        class="block w-full rounded-md border-gray-300
-                                            shadow-sm focus:border-blue-500
-                                            focus:ring-blue-500"
+                                        class="block w-full rounded-lg border-gray-300 py-2.5 text-gray-900 shadow-sm transition-colors focus:border-violet-500 focus:ring-violet-500 sm:text-sm"
                                     >
-                                        <option value="">Selecciona un usuario</option>
+                                        <option value="">Selecciona un usuario para agregar</option>
 
                                         @foreach ($usuariosDisponibles as $usuario)
                                             <option value="{{ $usuario->id }}">
-                                                {{ $usuario->name }}
-                                                — {{ $usuario->email }}
+                                                {{ $usuario->name }} — {{ $usuario->email }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -189,10 +218,9 @@
 
                                 <button
                                     type="submit"
-                                    class="rounded-md bg-blue-600 px-4 py-2 text-sm
-                                        font-semibold text-white hover:bg-blue-700"
+                                    class="inline-flex items-center justify-center rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-violet-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                                 >
-                                    Agregar líder
+                                    Agregar
                                 </button>
                             </form>
                         @endif
@@ -200,20 +228,16 @@
                 </section>
 
                 {{-- Cotizaciones --}}
-<!--                 <section>
-                    <h3 class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm text-lg font-semibold text-gray-900">
-                        Cotizaciones
-                    </h3>
-                </section> -->
-                <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                <section class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm ring-1 ring-gray-900/5 sm:p-8">
                     <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900">
+                            <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#7c3aed"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h168q13-36 43.5-58t68.5-22q38 0 68.5 22t43.5 58h168q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm80-80h280v-80H280v80Zm0-160h400v-80H280v80Zm0-160h400v-80H280v80Zm221.5-198.5Q510-807 510-820t-8.5-21.5Q493-850 480-850t-21.5 8.5Q450-833 450-820t8.5 21.5Q467-790 480-790t21.5-8.5ZM200-200v-560 560Z"/></svg>
                                 Cotizaciones
                             </h3>
 
                             <p class="mt-1 text-sm text-gray-500">
-                                Conceptos y comparativas de precios para transparentar decisiones del proyecto.
+                                Conceptos y comparativas de precios.
                             </p>
                         </div>
 
@@ -221,16 +245,19 @@
                             <button
                                 type="button"
                                 onclick="openCotizacionConceptoModal()"
-                                class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                                class="inline-flex items-center justify-center rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-violet-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                             >
-                                Agregar cotización
+                                <svg class="-ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                </svg>
+                                Agregar
                             </button>
                         @endcan
                     </div>
 
                     <div class="mt-6 space-y-3">
                         @forelse ($cotizacionConceptos as $cotizacionConcepto)
-                            <div class="flex flex-col justify-between gap-4 rounded-lg border border-gray-200 px-4 py-4 sm:flex-row sm:items-center">
+                            <div class="flex flex-col justify-between gap-4 rounded-xl border border-gray-100 px-5 py-4 transition-colors hover:bg-violet-50/50 sm:flex-row sm:items-center">
                                 <div>
                                     <p class="font-semibold text-gray-900">
                                         {{ $cotizacionConcepto->nombre }}
@@ -238,29 +265,35 @@
 
                                     @if ($cotizacionConcepto->descripcion)
                                         <p class="mt-1 text-sm text-gray-500">
-                                            {{ $cotizacionConcepto->descripcion }}
+                                            {{ Str::limit($cotizacionConcepto->descripcion, 60) }}
                                         </p>
                                     @endif
 
-                                    <p class="mt-2 text-xs text-gray-400">
-                                        {{ $cotizacionConcepto->cotizaciones_count }} cotización(es) registrada(s)
-                                    </p>
+                                    <div class="mt-2 flex items-center gap-1.5 text-xs text-gray-500">
+                                        <svg class="h-3.5 w-3.5 text-violet-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
+                                        </svg>
+                                        {{ $cotizacionConcepto->cotizaciones_count }} cotización(es)
+                                    </div>
                                 </div>
 
                                 <a
                                     href="{{ route('proyectos.cotizaciones.show', [$proyecto, $cotizacionConcepto]) }}"
-                                    class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                                    class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                                 >
                                     Ver detalles
                                 </a>
                             </div>
                         @empty
-                            <div class="rounded-lg border border-dashed border-gray-300 px-4 py-8 text-center">
-                                <p class="text-sm text-gray-500">
+                            <div class="rounded-xl border border-dashed border-gray-300 px-4 py-10 text-center">
+                                <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                                </svg>
+                                <p class="mt-2 text-sm text-gray-500">
                                     Aún no hay conceptos de cotización registrados.
                                 </p>
                             </div>
-                        @endforelse
+                        @endempty
                     </div>
                 </section>
                 @can('alimentar', $proyecto)
@@ -273,18 +306,18 @@
                     >
                         <div class="flex min-h-screen items-center justify-center px-4 py-6">
                             <div
-                                class="fixed inset-0 bg-gray-900 bg-opacity-50"
+                                class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity"
                                 onclick="closeCotizacionConceptoModal()"
                             ></div>
 
-                            <div class="relative w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
+                            <div class="relative w-full max-w-lg transform rounded-2xl bg-white p-6 text-left shadow-xl transition-all sm:p-8">
                                 <div class="mb-5 flex items-start justify-between">
                                     <div>
                                         <h3
                                             id="cotizacionConceptoModalTitle"
                                             class="text-lg font-semibold text-gray-900"
                                         >
-                                            Agregar cotización
+                                            Agregar concepto de cotización
                                         </h3>
 
                                         <p class="mt-1 text-sm text-gray-500">
@@ -295,21 +328,23 @@
                                     <button
                                         type="button"
                                         onclick="closeCotizacionConceptoModal()"
-                                        class="text-2xl leading-none text-gray-400 hover:text-gray-600"
+                                        class="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-violet-500"
                                     >
-                                        &times;
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
                                     </button>
                                 </div>
 
                                 <form
                                     method="POST"
                                     action="{{ route('proyectos.cotizaciones.store', $proyecto) }}"
-                                    class="space-y-4"
+                                    class="space-y-5"
                                 >
                                     @csrf
 
                                     <div>
-                                        <label for="cotizacion_nombre" class="block text-sm font-medium text-gray-700">
+                                        <label for="cotizacion_nombre" class="block text-sm font-semibold text-gray-900">
                                             Nombre
                                         </label>
 
@@ -321,7 +356,7 @@
                                             required
                                             maxlength="255"
                                             placeholder="Ej. Malla ciclónica"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                            class="mt-2 block w-full rounded-lg border-gray-300 py-2.5 text-gray-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm"
                                         >
 
                                         @error('nombre')
@@ -330,7 +365,7 @@
                                     </div>
 
                                     <div>
-                                        <label for="cotizacion_descripcion" class="block text-sm font-medium text-gray-700">
+                                        <label for="cotizacion_descripcion" class="block text-sm font-semibold text-gray-900">
                                             Descripción
                                         </label>
 
@@ -339,7 +374,7 @@
                                             name="descripcion"
                                             rows="3"
                                             placeholder="Describe brevemente qué se quiere comprar, instalar o contratar."
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                            class="mt-2 block w-full rounded-lg border-gray-300 py-2.5 text-gray-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm"
                                         >{{ old('descripcion') }}</textarea>
 
                                         @error('descripcion')
@@ -347,18 +382,18 @@
                                         @enderror
                                     </div>
 
-                                    <div class="flex justify-end gap-3 pt-4">
+                                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
                                         <button
                                             type="button"
                                             onclick="closeCotizacionConceptoModal()"
-                                            class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                                            class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                                         >
                                             Cancelar
                                         </button>
 
                                         <button
                                             type="submit"
-                                            class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                                            class="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                                         >
                                             Guardar y continuar
                                         </button>
@@ -387,36 +422,43 @@
             </div>
 
             {{-- Movimientos --}}
-            <section class="overflow-hidden rounded-xl border border-gray-200
-                            bg-white shadow-sm">
-                <div class="flex items-center justify-between border-b
-                            border-gray-200 px-6 py-5">
+            <section class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm ring-1 ring-gray-900/5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 px-6 py-6 sm:px-8 gap-4">
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900">
+                        <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                            <svg class="h-5 w-5 text-violet-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
                             Entradas y salidas
                         </h3>
                         <p class="mt-1 text-sm text-gray-500">
-                            Historial financiero del proyecto.
+                            Historial financiero detallado del proyecto.
                         </p>
                     </div>
 
                     {{-- Modal para registrar movimiento --}}
                     @can('alimentar', $proyecto)
-                        <div class="flex flex-wrap items-center gap-3 mb-6">
+                        <div class="flex flex-wrap items-center gap-3">
                             <button
                                 type="button"
                                 onclick="openMovimientoModal('entrada')"
-                                class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition"
+                                class="inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                             >
-                                Ingresar dinero
+                                <svg class="-ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z" clip-rule="evenodd" />
+                                </svg>
+                                Registrar entrada
                             </button>
 
                             <button
                                 type="button"
                                 onclick="openMovimientoModal('salida')"
-                                class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition"
+                                class="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-red-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                             >
-                                Sacar dinero
+                                <svg class="-ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" />
+                                </svg>
+                                Registrar salida
                             </button>
                         </div>
 
@@ -429,12 +471,12 @@
                         >
                             <div class="flex min-h-screen items-center justify-center px-4 py-6">
                                 <div
-                                    class="fixed inset-0 bg-gray-900 bg-opacity-50 transition-opacity"
+                                    class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity"
                                     onclick="closeMovimientoModal()"
                                 ></div>
 
-                                <div class="relative bg-white rounded-lg shadow-xl w-full max-w-lg p-6">
-                                    <div class="flex items-start justify-between mb-4">
+                                <div class="relative w-full max-w-lg transform rounded-2xl bg-white p-6 text-left shadow-xl transition-all sm:p-8">
+                                    <div class="flex items-start justify-between mb-5">
                                         <div>
                                             <h3
                                                 id="movimientoModalTitle"
@@ -442,7 +484,7 @@
                                             >
                                                 Registrar movimiento
                                             </h3>
-                                            <p id="movimientoModalSubtitle" class="text-sm text-gray-500 mt-1">
+                                            <p id="movimientoModalSubtitle" class="mt-1 text-sm text-gray-500">
                                                 Captura los datos del movimiento.
                                             </p>
                                         </div>
@@ -450,10 +492,12 @@
                                         <button
                                             type="button"
                                             onclick="closeMovimientoModal()"
-                                            class="text-gray-400 hover:text-gray-600"
+                                            class="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-violet-500"
                                         >
                                             <span class="sr-only">Cerrar</span>
-                                            &times;
+                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
                                         </button>
                                     </div>
 
@@ -461,14 +505,14 @@
                                         method="POST"
                                         action="{{ route('proyectos.movimientos.store', $proyecto) }}"
                                         enctype="multipart/form-data"
-                                        class="space-y-4"
+                                        class="space-y-5"
                                     >
                                         @csrf
 
                                         <input type="hidden" name="tipo" id="movimientoTipo" value="{{ old('tipo', 'entrada') }}">
 
                                         <div>
-                                            <label for="concepto" class="block text-sm font-medium text-gray-700">
+                                            <label for="concepto" class="block text-sm font-semibold text-gray-900">
                                                 Concepto
                                             </label>
                                             <input
@@ -478,7 +522,7 @@
                                                 value="{{ old('concepto') }}"
                                                 required
                                                 maxlength="255"
-                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                class="mt-2 block w-full rounded-lg border-gray-300 py-2.5 text-gray-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm"
                                                 placeholder="Ej. Compra de material"
                                             >
                                             @error('concepto')
@@ -487,37 +531,45 @@
                                         </div>
 
                                         <div>
-                                            <label for="monto" class="block text-sm font-medium text-gray-700">
+                                            <label for="monto" class="block text-sm font-semibold text-gray-900">
                                                 Cantidad
                                             </label>
-                                            <p class="mt-1 text-sm text-gray-500">
-                                                Saldo actual disponible: ${{ number_format($proyecto->saldo_actual, 2) }}
+                                            <div class="relative mt-2">
+                                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+                                                    <span class="text-gray-500 sm:text-sm">$</span>
+                                                </div>
+                                                <input
+                                                    type="number"
+                                                    name="monto"
+                                                    id="monto"
+                                                    value="{{ old('monto') }}"
+                                                    required
+                                                    min="0.01"
+                                                    step="0.01"
+                                                    class="block w-full rounded-lg border-gray-300 py-2.5 pl-9 text-gray-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm"
+                                                    placeholder="0.00"
+                                                >
+                                            </div>
+                                            <p class="mt-2 flex items-center gap-1.5 text-xs text-gray-500">
+                                                <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Saldo actual disponible: <span class="font-medium text-gray-900">${{ number_format($proyecto->saldo_actual, 2) }}</span>
                                             </p>
-                                            <input
-                                                type="number"
-                                                name="monto"
-                                                id="monto"
-                                                value="{{ old('monto') }}"
-                                                required
-                                                min="0.01"
-                                                step="0.01"
-                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                                placeholder="0.00"
-                                            >
                                             @error('monto')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
                                         </div>
 
                                         <div>
-                                            <label for="descripcion" class="block text-sm font-medium text-gray-700">
+                                            <label for="descripcion" class="block text-sm font-semibold text-gray-900">
                                                 Descripción
                                             </label>
                                             <textarea
                                                 name="descripcion"
                                                 id="descripcion"
                                                 rows="3"
-                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                class="mt-2 block w-full rounded-lg border-gray-300 py-2.5 text-gray-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm"
                                                 placeholder="Describe brevemente el motivo del movimiento"
                                             >{{ old('descripcion') }}</textarea>
                                             @error('descripcion')
@@ -526,7 +578,7 @@
                                         </div>
 
                                         <div>
-                                            <label for="comprobante" class="block text-sm font-medium text-gray-700">
+                                            <label for="comprobante" class="block text-sm font-semibold text-gray-900">
                                                 Foto / comprobante
                                             </label>
                                             <input
@@ -534,18 +586,18 @@
                                                 name="comprobante"
                                                 id="comprobante"
                                                 accept="image/*"
-                                                class="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-200"
+                                                class="mt-2 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-200"
                                             >
                                             @error('comprobante')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
                                         </div>
 
-                                        <div class="flex justify-end gap-3 pt-4">
+                                        <div class="flex justify-end gap-3 pt-5 border-t border-gray-100">
                                             <button
                                                 type="button"
                                                 onclick="closeMovimientoModal()"
-                                                class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50"
+                                                class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                                             >
                                                 Cancelar
                                             </button>
@@ -553,7 +605,7 @@
                                             <button
                                                 type="submit"
                                                 id="movimientoSubmitButton"
-                                                class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700"
+                                                class="rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
                                             >
                                                 Registrar entrada
                                             </button>
@@ -574,17 +626,15 @@
                                 tipoInput.value = tipo;
 
                                 if (tipo === 'entrada') {
-                                    title.textContent = 'Ingresar dinero';
+                                    title.textContent = 'Registrar entrada';
                                     subtitle.textContent = 'Registra una entrada de dinero al proyecto.';
                                     submitButton.textContent = 'Registrar entrada';
-                                    submitButton.classList.remove('bg-red-600', 'hover:bg-red-700');
-                                    submitButton.classList.add('bg-green-600', 'hover:bg-green-700');
+                                    submitButton.className = 'rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2';
                                 } else {
-                                    title.textContent = 'Sacar dinero';
+                                    title.textContent = 'Registrar salida';
                                     subtitle.textContent = 'Registra una salida de dinero del proyecto.';
                                     submitButton.textContent = 'Registrar salida';
-                                    submitButton.classList.remove('bg-green-600', 'hover:bg-green-700');
-                                    submitButton.classList.add('bg-red-600', 'hover:bg-red-700');
+                                    submitButton.className = 'rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2';
                                 }
 
                                 modal.classList.remove('hidden');
@@ -609,46 +659,39 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-gray-100">
+                        <thead class="bg-gray-50/50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-semibold
-                                           uppercase text-gray-500">
+                                <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Fecha
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold
-                                           uppercase text-gray-500">
+                                <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Concepto
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold
-                                           uppercase text-gray-500">
+                                <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Registrado por
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold
-                                           uppercase text-gray-500">
+                                <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Tipo
                                 </th>
-                                <th class="px-6 py-3 text-right text-xs font-semibold
-                                           uppercase text-gray-500">
+                                <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Monto
                                 </th>
-                                <th class="px-6 py-3 text-right text-xs font-semibold
-                                           uppercase text-gray-500">
-                                    Ver
+                                <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Evidencia
                                 </th>
                             </tr>
                         </thead>
 
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-100 bg-white">
                             @foreach ($movimientos as $movimiento)
-                                <tr>
-                                    <td class="whitespace-nowrap px-6 py-4 text-sm
-                                               text-gray-600">
+                                <tr class="transition-colors hover:bg-gray-50/50">
+                                    <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
                                         {{ $movimiento->created_at->format('d/m/Y H:i') }}
                                     </td>
 
                                     <td class="px-6 py-4">
-                                        <p class="text-sm font-medium text-gray-900">
+                                        <p class="text-sm font-semibold text-gray-900">
                                             {{ $movimiento->concepto }}
                                         </p>
 
@@ -659,18 +702,23 @@
                                         @endif
                                     </td>
 
-                                    <td class="px-6 py-4 text-sm text-gray-600">
-                                        {{ $movimiento->usuario->name }}
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 text-xs font-medium text-gray-600">
+                                                {{ substr($movimiento->usuario->name, 0, 1) }}
+                                            </div>
+                                            <span class="text-sm text-gray-600">{{ $movimiento->usuario->name }}</span>
+                                        </div>
                                     </td>
 
                                     <td class="px-6 py-4">
                                         <span @class([
-                                            'rounded-full px-2.5 py-1 text-xs font-semibold',
-                                            'bg-blue-100 text-blue-700' =>
+                                            'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset',
+                                            'bg-violet-50 text-violet-700 ring-violet-600/20' =>
                                                 $movimiento->tipo === 'saldo_inicial',
-                                            'bg-green-100 text-green-700' =>
+                                            'bg-emerald-50 text-emerald-700 ring-emerald-600/20' =>
                                                 $movimiento->tipo === 'entrada',
-                                            'bg-red-100 text-red-700' =>
+                                            'bg-red-50 text-red-700 ring-red-600/10' =>
                                                 $movimiento->tipo === 'salida',
                                         ])>
                                             {{ match ($movimiento->tipo) {
@@ -685,21 +733,24 @@
                                         'whitespace-nowrap px-6 py-4 text-right font-semibold',
                                         'text-red-600' =>
                                             $movimiento->tipo === 'salida',
-                                        'text-green-700' =>
+                                        'text-emerald-700' =>
                                             $movimiento->tipo !== 'salida',
                                     ])>
                                         {{ $movimiento->tipo === 'salida' ? '−' : '+' }}
                                         ${{ number_format($movimiento->monto, 2) }}
                                     </td>
-                                    <td class="flex items-center justify-end px-6 py-4">
+                                    <td class="px-6 py-4 text-right">
                                         @if ($movimiento->comprobante)
                                             <a
                                                 href="{{ Storage::url($movimiento->comprobante) }}"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="inline-flex px-1.5 py-1.5 bg-gray-100 border border-gray-300 rounded-md text-xs font-semibold text-gray-700 upperccase tracking-widest hover:bg-gray-200"
+                                                class="inline-flex items-center justify-center rounded-lg bg-gray-50 p-2 text-gray-500 ring-1 ring-inset ring-gray-300 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                                                title="Ver comprobante"
                                             >
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#000000"><path d="M720-330q0 104-73 177T470-80q-104 0-177-73t-73-177v-370q0-75 52.5-127.5T400-880q75 0 127.5 52.5T580-700v350q0 46-32 78t-78 32q-46 0-78-32t-32-78v-370h80v370q0 13 8.5 21.5T470-320q13 0 21.5-8.5T500-350v-350q-1-42-29.5-71T400-800q-42 0-71 29t-29 71v370q-1 71 49 120.5T470-160q70 0 119-49.5T640-330v-390h80v390Z"/></svg>
+                                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                                </svg>
                                             </a>
                                         @endif
                                     </td>
@@ -710,18 +761,20 @@
                 </div>
 
                 @if ($movimientos->hasPages())
-                    <div class="border-t border-gray-200 px-6 py-4">
+                    <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-4">
                         {{ $movimientos->links() }}
                     </div>
                 @endif
             </section>
 
-
             {{-- Notas --}}
-            <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm ring-1 ring-gray-900/5 sm:p-8">
                 <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900">
+                        <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                            <svg class="h-5 w-5 text-violet-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            </svg>
                             Notas
                         </h3>
 
@@ -734,34 +787,45 @@
                         <button
                             type="button"
                             onclick="openNotaModal()"
-                            class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                            class="inline-flex items-center justify-center rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-violet-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                         >
+                            <svg class="-ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                            </svg>
                             Agregar nota
                         </button>
                     @endcan
                 </div>
 
-                <div class="mt-6 space-y-4">
+                <div class="mt-8 space-y-6">
                     @forelse ($notas as $nota)
-                        <article class="rounded-lg border border-gray-200 p-4">
-                            <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                                <p class="text-sm font-semibold text-gray-900">
-                                    {{ $nota->usuario->name }}
-                                </p>
+                        <article class="relative rounded-2xl border border-gray-100 bg-white p-5 shadow-sm ring-1 ring-gray-900/5 transition-shadow hover:shadow-md">
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-700">
+                                        <span class="font-semibold">{{ substr($nota->usuario->name, 0, 1) }}</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-900">
+                                            {{ $nota->usuario->name }}
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ $nota->created_at->format('d/m/Y H:i') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-                                <p class="text-xs text-gray-400">
-                                    {{ $nota->created_at->format('d/m/Y H:i') }}
+                            <div class="mt-4 rounded-xl bg-gray-50 p-4">
+                                <p class="whitespace-pre-line text-sm text-gray-700">
+                                    {{ $nota->comentario }}
                                 </p>
                             </div>
 
-                            <p class="mt-3 whitespace-pre-line text-sm text-gray-700">
-                                {{ $nota->comentario }}
-                            </p>
-
                             @if ($nota->archivos->isNotEmpty())
-                                <div class="mt-4">
-                                    <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                        Archivos
+                                <div class="mt-4 border-t border-gray-100 pt-4">
+                                    <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                        Archivos adjuntos
                                     </p>
 
                                     <div class="flex flex-wrap gap-2">
@@ -770,9 +834,12 @@
                                                 href="{{ \Illuminate\Support\Facades\Storage::url($archivo->archivo) }}"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="inline-flex items-center rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                class="group inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition-all hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700"
                                             >
-                                                {{ $archivo->nombre_original }}
+                                                <svg class="h-4 w-4 text-gray-400 group-hover:text-violet-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+                                                </svg>
+                                                <span class="truncate max-w-[200px]">{{ $archivo->nombre_original }}</span>
                                             </a>
                                         @endforeach
                                     </div>
@@ -780,8 +847,11 @@
                             @endif
                         </article>
                     @empty
-                        <div class="rounded-lg border border-dashed border-gray-300 px-4 py-8 text-center">
-                            <p class="text-sm text-gray-500">
+                        <div class="rounded-2xl border border-dashed border-gray-300 px-4 py-12 text-center">
+                            <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            </svg>
+                            <p class="mt-2 text-sm text-gray-500">
                                 Aún no hay notas registradas para este proyecto.
                             </p>
                         </div>
@@ -789,7 +859,7 @@
                 </div>
 
                 @if ($notas->hasPages())
-                    <div class="mt-6">
+                    <div class="mt-8 border-t border-gray-100 pt-6">
                         {{ $notas->links() }}
                     </div>
                 @endif
@@ -803,11 +873,11 @@
                     >
                         <div class="flex min-h-screen items-center justify-center px-4 py-6">
                             <div
-                                class="fixed inset-0 bg-gray-900 bg-opacity-50"
+                                class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity"
                                 onclick="closeNotaModal()"
                             ></div>
 
-                            <div class="relative w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl">
+                            <div class="relative w-full max-w-2xl transform rounded-2xl bg-white p-6 text-left shadow-xl transition-all sm:p-8">
                                 <div class="mb-5 flex items-start justify-between">
                                     <div>
                                         <h3 class="text-lg font-semibold text-gray-900">
@@ -822,9 +892,12 @@
                                     <button
                                         type="button"
                                         onclick="closeNotaModal()"
-                                        class="text-2xl leading-none text-gray-400 hover:text-gray-600"
+                                        class="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-violet-500"
                                     >
-                                        &times;
+                                        <span class="sr-only">Cerrar</span>
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
                                     </button>
                                 </div>
 
@@ -832,12 +905,12 @@
                                     method="POST"
                                     action="{{ route('proyectos.notas.store', $proyecto) }}"
                                     enctype="multipart/form-data"
-                                    class="space-y-4"
+                                    class="space-y-5"
                                 >
                                     @csrf
 
                                     <div>
-                                        <label for="comentario" class="block text-sm font-medium text-gray-700">
+                                        <label for="comentario" class="block text-sm font-semibold text-gray-900">
                                             Nota
                                         </label>
 
@@ -847,7 +920,7 @@
                                             rows="5"
                                             required
                                             placeholder="Ej. Se terminó la limpieza del área norte del parque..."
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                            class="mt-2 block w-full rounded-lg border-gray-300 py-2.5 text-gray-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm"
                                         >{{ old('comentario') }}</textarea>
 
                                         @error('comentario')
@@ -856,7 +929,7 @@
                                     </div>
 
                                     <div>
-                                        <label for="nota_archivos" class="block text-sm font-medium text-gray-700">
+                                        <label for="nota_archivos" class="block text-sm font-semibold text-gray-900">
                                             Archivos
                                         </label>
 
@@ -866,7 +939,7 @@
                                             name="archivos[]"
                                             multiple
                                             accept=".pdf,.doc,.docx,.xls,.xlsx,image/*"
-                                            class="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-200"
+                                            class="mt-2 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-200"
                                         >
 
                                         @error('archivos')
@@ -878,18 +951,18 @@
                                         @enderror
                                     </div>
 
-                                    <div class="flex justify-end gap-3 pt-4">
+                                    <div class="flex justify-end gap-3 pt-5 border-t border-gray-100">
                                         <button
                                             type="button"
                                             onclick="closeNotaModal()"
-                                            class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                                            class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                                         >
                                             Cancelar
                                         </button>
 
                                         <button
                                             type="submit"
-                                            class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                                            class="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                                         >
                                             Guardar nota
                                         </button>
@@ -918,8 +991,11 @@
             </section>
 
             {{-- Auditoría --}}
-            <section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h3 class="text-lg font-semibold text-gray-900">
+            <section class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm ring-1 ring-gray-900/5 sm:p-8">
+                <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                    <svg class="h-5 w-5 text-violet-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                     Auditoría
                 </h3>
 
@@ -927,36 +1003,38 @@
                     Historial de acciones realizadas dentro del proyecto.
                 </p>
 
-                <div class="mt-6 flow-root">
+                <div class="mt-8 flow-root">
                     <ul class="-mb-8">
                         @foreach ($auditorias as $auditoria)
                             <li>
                                 <div class="relative pb-8">
                                     @unless ($loop->last)
-                                        <span class="absolute left-2.5 top-5 -ml-px
-                                                     h-full w-px bg-gray-200"></span>
+                                        <span class="absolute left-4 top-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                                     @endunless
 
-                                    <div class="relative flex gap-4">
-                                        <span class="mt-1 flex h-5 w-5 items-center
-                                                     justify-center rounded-full
-                                                     bg-blue-600 ring-4 ring-white">
-                                        </span>
+                                    <div class="relative flex items-start gap-4">
+                                        <div class="relative flex h-8 w-8 items-center justify-center rounded-full bg-violet-100 ring-8 ring-white">
+                                            <svg class="h-4 w-4 text-violet-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
 
-                                        <div class="min-w-0 flex-1">
-                                            <p class="text-sm text-gray-700">
+                                        <div class="min-w-0 flex-1 pt-1.5">
+                                            <div class="text-sm text-gray-700">
                                                 <span class="font-semibold text-gray-900">
-                                                    {{ $auditoria->usuario?->name ?? 'Sin asignar' }}
+                                                    {{ $auditoria->usuario?->name ?? 'Sistema' }}
                                                 </span>
+                                                <span class="text-gray-600">
+                                                    {{ $auditoria->descripcion }}
+                                                </span>
+                                            </div>
 
-                                                {{ $auditoria->descripcion }}
-                                            </p>
-
-                                            <p class="mt-1 text-xs text-gray-500">
-                                                {{ $auditoria->created_at->format(
-                                                    'd/m/Y H:i:s'
-                                                ) }}
-                                            </p>
+                                            <div class="mt-1 flex items-center gap-2 text-xs text-gray-500">
+                                                <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                                </svg>
+                                                {{ $auditoria->created_at->format('d/m/Y - H:i:s') }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -966,7 +1044,7 @@
                 </div>
 
                 @if ($auditorias->hasPages())
-                    <div class="mt-5 border-t border-gray-200 pt-5">
+                    <div class="mt-8 border-t border-gray-100 pt-6">
                         {{ $auditorias->links() }}
                     </div>
                 @endif

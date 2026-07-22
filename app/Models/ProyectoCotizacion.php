@@ -12,6 +12,7 @@ class ProyectoCotizacion extends Model
         'proyecto_cotizacion_concepto_id',
         'registrado_por',
         'proveedor',
+        'telefono',
         'precio',
         'observaciones',
     ];

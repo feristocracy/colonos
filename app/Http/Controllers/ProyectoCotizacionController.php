@@ -19,6 +19,7 @@ class ProyectoCotizacionController extends Controller
 
         $data = $request->validate([
             'proveedor' => ['required', 'string', 'max:255'],
+            'telefono' => ['nullable', 'string', 'max:30'],
             'precio' => ['required', 'numeric', 'min:0.01'],
             'observaciones' => ['nullable', 'string'],
             'archivos' => ['nullable', 'array'],
@@ -29,6 +30,7 @@ class ProyectoCotizacionController extends Controller
             $cotizacion = $cotizacionConcepto->cotizaciones()->create([
                 'registrado_por' => auth()->id(),
                 'proveedor' => $data['proveedor'],
+                'telefono' => $data['telefono'] ?? null,
                 'precio' => $data['precio'],
                 'observaciones' => $data['observaciones'] ?? null,
             ]);
