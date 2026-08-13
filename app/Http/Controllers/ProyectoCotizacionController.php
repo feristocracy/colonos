@@ -23,7 +23,7 @@ class ProyectoCotizacionController extends Controller
             'precio' => ['required', 'numeric', 'min:0.01'],
             'observaciones' => ['nullable', 'string'],
             'archivos' => ['nullable', 'array'],
-            'archivos.*' => ['file', 'mimes:pdf,jpg,jpeg,png,webp', 'max:10240'],
+            'archivos.*' => ['file', 'mimes:pdf,jpg,jpeg,png,webp,xls,xlsx,docx,doc', 'max:10240'],
         ]);
 
         DB::transaction(function () use ($request, $proyecto, $cotizacionConcepto, $data) {
