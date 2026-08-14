@@ -478,7 +478,7 @@
                                 id="archivos"
                                 name="archivos[]"
                                 multiple
-                                accept=".pdf,image/*"
+                                accept=".pdf,.xls,.xlsx,.docx,.doc,image/*"
                                 class="mt-2 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-200"
                             >
 
